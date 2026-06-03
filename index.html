@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
     
+    <link rel="preload" href="next3d.ai-Generated-Model-3cv4pp.glb" as="fetch" crossorigin>
     <!-- سكريبت تشغيل الـ 3D بأعلى كفاءة تفاعلية -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -82,7 +83,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 2.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 2.3s;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
             opacity: 0;
             visibility: hidden;
             z-index: 10;
@@ -187,7 +188,7 @@
             margin-bottom: 25px;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 2.3s ease 0.4s, transform 2.3s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+            transition: opacity 1.2s ease 0.3s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
         }
 
         .dedication-line-2 {
@@ -199,7 +200,7 @@
             margin: 0 auto;
             opacity: 0;
             transform: translateY(15px);
-            transition: opacity 2.3s ease 1.5s, transform 2.3s cubic-bezier(0.25, 1, 0.5, 1) 1.5s;
+            transition: opacity 1.2s ease 0.8s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.8s;
         }
 
         #scene-dedication.active .dedication-line-1 {
@@ -240,7 +241,7 @@
             padding: 5vh 4vw;
             z-index: 6;
             box-sizing: border-box;
-            transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1), transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: opacity, transform;
         }
 
@@ -668,15 +669,15 @@
                         countdownNum.classList.add('show');
                     } else {
                         clearInterval(interval);
-                        sceneCountdown.style.transition = 'opacity 1.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                        sceneCountdown.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
                         sceneCountdown.style.opacity = '0';
                         setTimeout(() => {
                             sceneCountdown.classList.remove('active');
                             sceneWelcome.classList.add('active');
-                        }, 1600);
+                        }, 800);
                     }
-                }, 350); 
-            }, 1400); 
+                }, 200); 
+            }, 750); 
         }
 
         window.addEventListener('DOMContentLoaded', runCountdown);
@@ -685,14 +686,14 @@
             current.classList.remove('active');
             setTimeout(() => {
                 next.classList.add('active');
-            }, 450); 
+            }, 200); 
         }
 
         function handleStart() {
             startBtn.style.transform = "scale(1.02)";
             setTimeout(() => {
                 transitionToScene(sceneWelcome, sceneDedication);
-            }, 900);
+            }, 300);
         }
         
         startBtn.addEventListener('click', handleStart);
@@ -710,7 +711,7 @@
                 sceneTuesday.classList.remove('active');
                 sceneLetter.classList.add('active');
                 initLetterObserver(); 
-            }, 1000); 
+            }, 500); 
         });
 
         function initLetterObserver() {
@@ -735,7 +736,7 @@
                         sceneLetter.classList.remove('active');
                         sceneEnding.classList.add('active');
                     }, 550);
-                }, 1800); 
+                }, 800); 
             }
 
             const observer = new IntersectionObserver((entries) => {
