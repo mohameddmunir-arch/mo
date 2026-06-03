@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>إلى ليا</title>
+    
+    <!-- استدعاء الخطوط الكلاسيكية والعتيقة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    
+    <!-- سكريبت تشغيل الـ 3D بأعلى كفاءة تفاعلية -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <style>
+        /* نظام تصميم الألوان والمتغيرات الأساسية */
+        :root {
+            --bg-crimson: #1a0508;
+            --bg-crimson-dark: #0f0305;
+            --gold: #dfb15b;
+            --gold-glow: rgba(223, 177, 91, 0.25);
+            --warm-beige: #f4ebd0;
+            --parchment-burn: rgba(139, 90, 43, 0.25);
+            
+            /* الخطوط الموحدة */
+            --font-global: 'Aref Ruqaa', serif;
+            --font-letter-kacst: 'KacstArt', 'Aref Ruqaa', 'Amiri', serif; 
+            --font-countdown: 'Playfair Display', serif;
+        }
+
+        /* تصفير الهوامش وتجهيز الشاشة */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-crimson-dark);
+            color: var(--gold);
+            user-select: none;
+            font-family: var(--font-global);
+        }
+
+        /* طبقة حبيبات الفيلم السينمائي العتيق */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* الحاوية الرئيسية للمشاهد */
+        .viewport {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* الإعداد الأساسي للمشاهد والأنميشن الهادئ */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 2.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 2.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 20;
+        }
+
+        .next-trigger-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 30; /* رفع مساحة النقر لضمان استجابة الشاشة بالكامل */
+        }
+
+        /* ==================== مشهد العداد التنازلي المهدأ الـ Vintage ==================== */
+        #scene-countdown {
+            background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
+            z-index: 50;
+        }
+
+        .countdown-number {
+            font-size: 140px;
+            font-weight: 400;
+            font-family: var(--font-countdown);
+            font-style: italic;
+            color: rgba(223, 177, 91, 0.9);
+            text-shadow: 0 0 30px rgba(223, 177, 91, 0.4), 0 0 5px rgba(223, 177, 91, 0.2);
+            transform: scale(0.85);
+            opacity: 0;
+            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.9s ease;
+        }
+
+        .countdown-number.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* ==================== المشهد الأول: شاشة الترحيب ==================== */
+        #scene-welcome {
+            background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .flower-3d-container {
+            width: 280px;
+            height: 280px;
+            cursor: pointer;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
+            z-index: 6;
+            outline: none;
+            margin-right: -70px;
+        }
+
+        .flower-3d-container:hover, .flower-3d-container:active {
+            transform: scale(1.03);
+            filter: drop-shadow(0 0 20px var(--gold-glow)) drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8));
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            outline: none;
+        }
+
+        .welcome-text {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 20px;
+            opacity: 0.9;
+            cursor: pointer;
+            animation: softPulse 3s ease-in-out infinite alternate;
+            z-index: 6;
+        }
+
+        /* ==================== المشهد الثاني: الإهداء ==================== */
+        #scene-dedication {
+            background: var(--bg-crimson-dark);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .dedication-content {
+            z-index: 6;
+            pointer-events: none;
+        }
+
+        .dedication-line-1 {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(223, 177, 91, 0.2);
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 2.3s ease 0.4s, transform 2.3s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+        }
+
+        .dedication-line-2 {
+            font-size: 32px; 
+            font-weight: 400;
+            color: rgba(223, 177, 91, 0.5); 
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 2.3s ease 1.5s, transform 2.3s cubic-bezier(0.25, 1, 0.5, 1) 1.5s;
+        }
+
+        #scene-dedication.active .dedication-line-1 {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #scene-dedication.active .dedication-line-2 {
+            opacity: 0.5; 
+            transform: translateY(0);
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 50px;
+            font-size: 18px;
+            opacity: 0;
+            transform: translateX(50%);
+            right: 50%;
+            animation: hintSlide 3.5s infinite 3s;
+            color: rgba(223, 177, 91, 0.3);
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        /* ==================== المشهد الثالث: صفحة الأيام بالتعديلات الجديدة ==================== */
+        #scene-tuesday {
+            background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
+        }
+
+        .days-layout-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5vh 4vw;
+            z-index: 6;
+            box-sizing: border-box;
+            transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1), transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity, transform;
+        }
+
+        /* الجزء العلوي: يوم الثلاثاء مرفوع للأعلى مع الرمز */
+        .top-tuesday-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .tuesday-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .tuesday-symbol-container {
+            width: 200px;
+            height: 90px;
+        }
+
+        .tuesday-symbol {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 10px rgba(240, 160, 32, 0.2));
+        }
+
+        /* الجزء الأوسط: الجملة الفاصلة وكلمة "أَوْ" بالمنتصف */
+        .middle-phrase-section {
+            text-align: center;
+            margin: 15px 0;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .middle-phrase {
+            font-size: 28px;
+            font-weight: 400;
+            color: rgba(223, 177, 91, 0.85);
+            text-shadow: 0 0 10px rgba(223, 177, 91, 0.2);
+        }
+
+        .middle-or {
+              font-size: 24px;
+              font-weight: 700;
+              color: rgba(223, 177, 91, 0.55);
+
+               position: relative;
+               top: 100px;
+        }
+
+        /* الجزء السفلي: تقسيم متوازن تماماً لليمين واليسار */
+        .bottom-days-grid {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .day-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 44%;
+            text-align: center;
+        }
+
+        .day-column-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .wednesday-text { color: #ffa834; }
+        .thursday-text { color: #22c55e; } /* اللون الأخضر المتناسق مع مسار الـ SVG المحدث */
+
+        .wednesday-symbol-container {
+            width: 100%;
+            height: 180px;
+            filter: drop-shadow(0 0 15px rgba(255, 168, 52, 0.15));
+        }
+
+        .thursday-symbol-container {
+            width: 100%;
+            height: 180px;
+            filter: drop-shadow(0 0 15px rgba(34, 197, 94, 0.15));
+        }
+
+        .wednesday-symbol, .thursday-symbol {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* تأثير الخروج المتدرج المهدأ للمحتويات */
+        .days-layout-container.fade-out-smooth {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+
+        /* ==================== المشهد الرابع: الرسالة بانتقالات الظهور الفورية ==================== */
+        #scene-letter {
+            background-color: #eee1c5;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(250, 243, 224, 0.75) 0%, rgba(215, 195, 155, 0.95) 100%),
+                linear-gradient(to bottom, rgba(45, 11, 17, 0.08) 0%, rgba(45, 11, 17, 0.12) 100%);
+            box-shadow: inset 0 0 120px var(--parchment-burn);
+            color: #2a0a0e;
+            opacity: 0;
+            transform: scale(1);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #scene-letter.active {
+            opacity: 1;
+        }
+
+        .letter-scroll-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            padding-top: 45vh;
+            padding-bottom: 50vh;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .letter-scroll-container::-webkit-scrollbar {
+            display: none;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        .letter-block {
+            min-height: 25vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 24px;
+            scroll-snap-align: center;
+            transition: all 1.2s ease;
+            transform: scale(0.95);
+            opacity: 0.15;
+            filter: blur(1px);
+        }
+
+        .letter-block p {
+            font-family: var(--font-letter-kacst);
+            font-weight: bold;
+            font-size: 32px;
+            line-height: 1.8;
+            max-width: 800px;
+            color: #3d1217;
+            letter-spacing: 0.5px;
+        }
+
+        .letter-block.active {
+            opacity: 1;
+            filter: blur(0px);
+            transform: scale(1.02);
+        }
+
+        /* ==================== المشهد الأخير: الخاتمة والتحكم التفاعلي بالوردة ==================== */
+        #scene-ending {
+            background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
+        }
+
+        #scene-ending .flower-3d-container {
+            width: 320px;
+            height: 320px;
+            cursor: grab;
+            z-index: 40; /* التأكد من بقائها فوق أي طبقات لتلقي السحب واللمس */
+            position: relative;
+            top: -60px;
+        }
+        
+        #scene-ending .flower-3d-container:active {
+            cursor: grabbing;
+        }
+
+        /* توافق الشاشات والهواتف المتنقلة */
+        @media (max-width: 768px) {
+            .flower-3d-container { width: 230px; height: 230px; }
+            #scene-ending .flower-3d-container { width: 260px; height: 260px; }
+            .welcome-text { font-size: 22px; }
+            .dedication-line-1 { font-size: 42px; }
+            .dedication-line-2 { font-size: 24px; padding: 0 15px; }
+            
+            .tuesday-title { font-size: 26px; }
+            .tuesday-symbol-container { width: 150px; height: 70px; }
+            .middle-phrase { font-size: 19px; }
+            .middle-or { font-size: 18px; }
+            .day-column-title { font-size: 18px; margin-bottom: 8px; }
+            .wednesday-symbol-container, .thursday-symbol-container { height: 110px; }
+            
+            .letter-block p { font-size: 24px; line-height: 1.7; }
+            .letter-block { min-height: 22vh; }
+            .countdown-number { font-size: 90px; }
+        }
+         
+        .ending-text {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 28px;
+    color: var(--gold);
+    text-shadow: 0 0 15px rgba(223, 177, 91, 0.2);
+    opacity: 0.9;
+    z-index: 50;
+                    }  
+        @keyframes softPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes hintSlide {
+            0% { opacity: 0; transform: translate(50%, 5px); }
+            50% { opacity: 0.5; }
+            100% { opacity: 0; transform: translate(50%, -10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grain-overlay"></div>
+
+    <div class="viewport">
+
+        <!-- مشهد العداد التنازلي المهدأ الكلاسيكي من 3 إلى 0 -->
+        <div id="scene-countdown" class="scene active">
+            <div id="countdown-num" class="countdown-number">3</div>
+        </div>
+
+        <!-- المشهد الأول: شاشة الترحيب بالوردة الـ 3D المستقرة -->
+        <div id="scene-welcome" class="scene">
+            <div class="flower-3d-container" id="start-btn">
+                <model-viewer 
+                    src="next3d.ai-Generated-Model-3cv4pp.glb" 
+                    alt="وردة ثلاثية الأبعاد ترحيبية"
+                    auto-rotate 
+                    rotation-per-second="18deg"
+                    interaction-prompt="none"
+                    disable-zoom
+                    disable-pan
+                    disable-tap>
+                </model-viewer>
+            </div>
+            <div class="welcome-text" id="start-text">خُذِي وَرْدَتَكِ قَبْلَ أَنْ نَبْدَأَ</div>
+        </div>
+
+        <!-- المشهد الثاني: الإهداء الموحد -->
+        <div id="scene-dedication" class="scene">
+            <div class="dedication-content">
+                <div class="dedication-line-1">إِلَى لِيَا</div>
+                <div class="dedication-line-2">"حتى أشد النجوم لمعانا قد تتوه بين السحاب"</div>
+            </div>
+            <div class="click-hint">اِضْغَطِي فِي أَيِّ مَكَانٍ لِلْمُتَابَعَةِ</div>
+            <div class="next-trigger-area" id="to-tuesday-trigger"></div>
+        </div>
+
+        <!-- المشهد الثالث: صفحة الأيام المحدثة (تنتقل بالنقر في أي مكان) -->
+        <div id="scene-tuesday" class="scene">
+            <div class="days-layout-container" id="days-main-wrapper">
+                
+                <!-- فوق بالنص: عنوان يوم الثلاثاء مع رمزه -->
+                <div class="top-tuesday-section">
+                    <div class="tuesday-title">أَكْتُبُهَا إِلَيْكِ فِي يَوْمِ الثُّلَاثَاءِ</div>
+                    <div class="tuesday-symbol-container">
+                        <svg viewBox="0 0 280 120" class="tuesday-symbol">
+                            <path d="M 20,100 C 20,30 60,0 100,30 C 130,52 140,80 140,55 C 140,30 150,0 190,20 C 220,36 250,65 260,95" stroke="#f0a020" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- في المنتصف تماماً: العبارة الرابطة مضافاً إليها كلمة "أَوْ" المنسقة -->
+                <div class="middle-phrase-section">
+                    <div class="middle-phrase">لَا أَدْرِي فِي أَيِّ يَوْمٍ تَصِلُكِ رِسَالَتِي</div>
+                    <div class="middle-or">أَوْ</div>
+                </div>
+
+                <!-- بالأسفل: الأربعاء على اليمين والخميس الحلزوني الجديد على اليسار -->
+                <div class="bottom-days-grid">
+                    
+                    <!-- اليمين: يوم الأربعاء مع الكلمة المكتوبة ورمز الـ SVG البرتقالي -->
+                    <div class="day-column">
+                        <div class="day-column-title wednesday-text">يَوْمُ الْأَرْبِعَاءِ</div>
+                        <div class="wednesday-symbol-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1000" class="wednesday-symbol">
+                                <g fill="none" stroke="#ffa834" stroke-width="42" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M 130,730 L 140,390 L 230,390 L 375,670" />
+                                    <path d="M 165,430 L 220,680" />
+                                    <path d="M 200,420 L 275,670" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- اليسار: يوم الخميس مع الكلمة والرمز اللولبي المحدث كلياً والمميز بدقته وانسيابه -->
+                    <div class="day-column">
+                        <div class="day-column-title thursday-text">يَوْمُ الْخَمِيسِ</div>
+                        <div class="thursday-symbol-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 1000" class="thursday-symbol">
+                                <path d="M 0,650 C 100,640 180,630 250,620 C 340,605 410,550 435,470 C 460,390 430,300 360,260 C 290,220 180,240 150,330 C 120,420 170,510 260,530 C 330,545 390,490 395,420 C 400,350 340,300 280,315 C 230,330 220,400 260,420 C 285,430 310,400 295,380" fill="none" stroke="#22c55e" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- مساحة النقر الشاملة للانتقال بمجرد الضغط في أي مكان في صفحة الأيام -->
+            <div class="next-trigger-area" id="to-letter-trigger"></div>
+            <div class="click-hint">اِضْغَطِي فِي أَيِّ مَكَانٍ لِلْمُتَابَعَةِ</div>
+        </div>
+
+        <!-- المشهد الرابع: الرسالة -->
+        <div id="scene-letter" class="scene">
+            <div class="letter-scroll-container" id="letter-scroller">
+                <div class="letter-block"><p>أَكْتُبُ لَكِ لَعَلِّي أَرْفُقُ بِقَلْبٍ</p></div>
+                <div class="letter-block"><p>حَمَلَ قَسْوَةَ الْأَيَّامِ وَحْدَهُ</p></div>
+                <div class="letter-block"><p>وَتَحَمَّلَ مِنَ الصِّعَابِ مَا تَخِرُّ عَنْهُ الْجِبَالُ.</p></div>
+                <div class="letter-block"><p>قَدْ عَلِمْتُ أَنَّكِ فِي أَيَّامِ تِيهٍ</p></div>
+                <div class="letter-block"><p>كَفُلْكٍ هَائِمٍ وَسَطَ عَاصِفَةٍ شَجَّتْ سُكُونَ الْبَحْرِ،</p></div>
+                <div class="letter-block"><p>كَأَنَّ جُهُودَكِ بِلَا مَعْنَى</p></div>
+                <div class="letter-block"><p> كَأَنَّكِ حِمْلٌ زَائِدٌ يُلْقَى لِلنَّجَاةِ.</p></div>
+                <div class="letter-block"><p>أَوْ كنَجْمَةٍ نَزَلَتْ مِنْ سَمَائِهَا لِتُرْشِدَ التَّائِهِينَ</p></div>
+                <div class="letter-block"><p> فَضَلَّتْ هِيَ طَرِيقَهَا..</p></div>
+                <div class="letter-block"><p>لَا لِنَقْصٍ فِي بَرِيقِهَا، بَلْ خَانَتْهَا عَتَمَةُ السَّمَاءِ</p></div>
+                <div class="letter-block"><p>لَوْ أَبْصَرْتِ نَفْسَكِ بِعَيْنَيْينِ غَيْرِ عُيُونٍ قَسَتْ عَلَيْكِ</p></div>
+                <div class="letter-block"><p>لَأَبْصَرْتِ جَمَالاً غَابَ عَنْ نَاظِرَيْكِ،</p></div>
+                <div class="letter-block"><p>لَرَأَيْتِ قَلْباً كَتُوماً مُثْقَلاً بِالأَحْمَالِ</p></div>
+                <div class="letter-block"><p>وَرُوحاً أَنْهَكَتْهَا المَلَامَةُ...</p></div>
+                <div class="letter-block"><p>يَا صَغِيرَتِي، انْظُرِي لِنَفْسِكِ بِعَيْنِ رَحْمَةٍ آثَرْتِ بِهَا غَيْرَكِ.</p></div>
+                <div class="letter-block"><p>أُوصِيكِ بِأَنْ تَكُونِي بِذَاتِكِ زَهْواً.،</p></div>
+                <div class="letter-block"><p>فَكَمْ مِنْ كَرْبٍ كَانَ يُفْتَرَضُ بِهِ أَنْ يُخْمِدَ نُورَكِ</p></div>
+                <div class="letter-block"><p>فَمَا زَادَكِ إِلَّا اتِّقَاداً وَبَهَاءً.</p></div>
+                <div class="letter-block"><p>يَا صَغِيرَتِي، إِنَّنِي فِي حِيرَةٍ مِنْ أَمْرِي،</p></div>
+                <div class="letter-block"><p>مَا رَأَيْتُكِ يَوْماً إِلَّا حَنُونَةً كَأُمِّ اشْتَاقَتْ لِوَلَدِهَا،</p></div>
+                <div class="letter-block"><p>فَأَخْبِرِينِي كَيْفَ بِأَرَقِّ الْخَلْقِ فُؤَادًا أَنْ يَحْرِمَ نَفْسَهُ عِنَاقاً طَالَ غِيَابُهُ؟</p></div>
+                <div class="letter-block"><p>وَاعَجَبِي كَيْفَ تُدَاوِينَ الْجِرَاحَ وَتَتْرُكِينَ جُرْحَكِ عَارِياً!</p></div>
+                <div class="letter-block"><p>أُوصِيكِ بأَنْ تُدْرِكِي أَنَّ نَقَاءَ رُوحِكِ وَطِيبِ قَلْبِكِ</p></div>
+                <div class="letter-block"><p>وَرَحْمَةٍ لَمْ يُدَنِّسْهَا جَفَاءُ الزَّمَانِ لَا يُنظَرُ إِلَيْهِم بِعَيْنِ مَنْقَصَةٍ،</p></div>
+                <div class="letter-block"><p>إِنَّمَا يُصَانُ كَمَا الشُّمُوعُ فِي لَيَالٍ اشْتَدَّتْ ظُلْمَتُهَا؛</p></div>
+                <div class="letter-block"><p>فَلِجَمَالٍ كَهَذَا عَزِيزٌ لَا يُنَالُ.</p></div>
+                <div class="letter-block"><p>يَا صَغِيرَتِي, رَقِيقَةٌ أَنْتِ كَجَنَاحَيْ فَرَاشَةٍ لَمْ يُحْدِثَا صَخَباً،</p></div>
+                <div class="letter-block"><p>وَإِنَّمَا هُدُوءٌ يُدْرَكُ لِوَقَارٍ لَا لِوَهْنٍ.</p></div>
+                <div class="letter-block"><p>اِعْلَمِي أَنِّي مَا رَأَيْتُ فِي دُمُوعِكِ وَهْناً </p></div>
+                <div class="letter-block"><p>كَلَّا </p></div>
+                <div class="letter-block"><p>إِنَّمَا قَطَرَاتُ نَدَىً تَسَابَقَتْ شَوْقاً لِتَصِلَ إِلَى خَدَّيْكِ.</p></div>
+                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَخْجَلِي مِنْ دَمْعَةٍ سَالَتْ مِنْ عَيْنَيْكِ إِثْرَ مَا عَانَيْتِ مِنَ الصِّعَابِ،</p></div>
+                <div class="letter-block"><p>فَمَا كَانَ الْحُزْنُ ضَعْفاً وَلَا الدَّمْعُ انْكِسَاراً.</p></div>
+                <div class="letter-block"><p>بَلْ هِيَ نِعْمَةُ اللِّينِ رُزِقْتِهَا وَهَيِّنٌ سَكَنَ قَلْبَكِ فِي زَمَانٍ مَالَ إِلَى الْقَسْوَةِ.</p></div>
+                <div class="letter-block"><p>فَمَا تُقَاسُ قُوَاكِ بِقَدْرِ مَا تَكْتُمِينَ مِنْ أَلَمٍ،</p></div>
+                <div class="letter-block"><p>بَلْ بِكُلِّ مَرَّةٍ أَثْقَلَتْكِ أَحْمَالُ الْحَيَاةِ</p></div>
+                <div class="letter-block"><p>فَحَفِظْتِ طَهَارَةَ قَلْبِكِ وَنَهَضْتِ ثُمَّ مَضَيْتِ فِي دَرْبِكِ.</p></div>
+                <div class="letter-block"><p>يَا صَغِيرَتِي, أَمَا آنَ لِهَذَا الْفُؤَادِ الْقَلِقِ أَنْ يَسْتَرِيحَ؟</p></div>
+                <div class="letter-block"><p>أَمَا آنَ لِرُوحٍ مُرْتَجِفَةٍ أَنْ تَطْمَئِنَّ؟</p></div>
+                <div class="letter-block"><p>أَخْبِرِينِي إِذَا مَا جَفَا النَّاسُ قَسْوَةً وَجَارَ الدَّهْرُ غَبْنَةً،</p></div>
+                <div class="letter-block"><p>إِلَى مَنْ يَسْتَنِدُ هَذَا الْقَلْبُ الصَّغِيرُ؟</p></div>
+                <div class="letter-block"><p>مَنْ يُهَوِّنُ عَلَيْهِ وَطْأَةَ الأَيَّامِ؟ أَخْبِرِينِي أَيُّ مَلَاذٍ يَأْوِيهِ؟</p></div>
+                <div class="letter-block"><p>إِنْ ظَفِرَ بِأَضْلُعِكِ سَكَناً فَهَنِيئاً لَهُ خَيْرُ السَّكَنِ كَانَ.</p></div>
+                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَحْرِمِيهِ هَكَذَا نِعْمَةً.</p></div>
+                <div class="letter-block" id="last-block"><p>فَرَقِيقٌ كَهَذَا أَحَقُّ أَنْ يُضَمَّ لَا أَنْ يُضَام.</p></div>
+            </div>
+        </div>
+
+        <!-- المشهد الأخير: الخاتمة التفاعلية المسرَّعة بالتحكم الكامل لليد والماوس للوردة -->
+        <div id="scene-ending" class="scene">
+            <div class="flower-3d-container">
+            <div class="ending-text">وَجْهُك كَأَنَّمَا خُلِقَ مِنْ ضِيَاءٍ، 
+                                     وَرُوحُك هِيَ اللُّؤْلُؤُ الْمَكْنُونُ</div>
+                <model-viewer 
+                    src="next3d.ai-Generated-Model-3cv4pp.glb" 
+                    alt="وردة ثلاثية الأبعاد تفاعلية"
+                    camera-controls
+                    enable-pan
+                    disable-zoom
+                    interaction-prompt="none"
+                    auto-rotate 
+                    rotation-per-second="10deg">
+                </model-viewer>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const sceneCountdown = document.getElementById('scene-countdown');
+        const sceneWelcome = document.getElementById('scene-welcome');
+        const sceneDedication = document.getElementById('scene-dedication');
+        const sceneTuesday = document.getElementById('scene-tuesday');
+        const sceneLetter = document.getElementById('scene-letter');
+        const sceneEnding = document.getElementById('scene-ending');
+
+        const countdownNum = document.getElementById('countdown-num');
+        const startBtn = document.getElementById('start-btn');
+        const startText = document.getElementById('start-text');
+        const toTuesdayTrigger = document.getElementById('to-tuesday-trigger');
+        const toLetterTrigger = document.getElementById('to-letter-trigger');
+        const daysMainWrapper = document.getElementById('days-main-wrapper');
+        const letterScroller = document.getElementById('letter-scroller');
+
+        let currentCount = 3;
+
+        function runCountdown() {
+            countdownNum.innerText = currentCount;
+            setTimeout(() => countdownNum.classList.add('show'), 50);
+
+            const interval = setInterval(() => {
+                countdownNum.classList.remove('show');
+                
+                setTimeout(() => {
+                    currentCount--;
+                    if (currentCount >= 0) {
+                        countdownNum.innerText = currentCount;
+                        countdownNum.classList.add('show');
+                    } else {
+                        clearInterval(interval);
+                        sceneCountdown.style.transition = 'opacity 1.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                        sceneCountdown.style.opacity = '0';
+                        setTimeout(() => {
+                            sceneCountdown.classList.remove('active');
+                            sceneWelcome.classList.add('active');
+                        }, 1600);
+                    }
+                }, 350); 
+            }, 1400); 
+        }
+
+        window.addEventListener('DOMContentLoaded', runCountdown);
+
+        function transitionToScene(current, next) {
+            current.classList.remove('active');
+            setTimeout(() => {
+                next.classList.add('active');
+            }, 450); 
+        }
+
+        function handleStart() {
+            startBtn.style.transform = "scale(1.02)";
+            setTimeout(() => {
+                transitionToScene(sceneWelcome, sceneDedication);
+            }, 900);
+        }
+        
+        startBtn.addEventListener('click', handleStart);
+        startText.addEventListener('click', handleStart);
+
+        toTuesdayTrigger.addEventListener('click', () => {
+            transitionToScene(sceneDedication, sceneTuesday);
+        });
+
+        // آلية الانتقال الجديدة لصفحة الأيام لتنتقل بمجرد النقر في أي مكان
+        toLetterTrigger.addEventListener('click', () => {
+            daysMainWrapper.classList.add('fade-out-smooth');
+            
+            setTimeout(() => {
+                sceneTuesday.classList.remove('active');
+                sceneLetter.classList.add('active');
+                initLetterObserver(); 
+            }, 1000); 
+        });
+
+        function initLetterObserver() {
+            const blocks = document.querySelectorAll('.letter-block');
+            const options = {
+                root: letterScroller,
+                rootMargin: '-35% 0px -35% 0px',
+                threshold: 0.15
+            };
+
+            let isEndingTriggered = false;
+
+            function triggerEndingScene() {
+                if (isEndingTriggered) return;
+                isEndingTriggered = true;
+
+                setTimeout(() => {
+                    sceneLetter.style.transition = 'opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                    sceneLetter.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        sceneLetter.classList.remove('active');
+                        sceneEnding.classList.add('active');
+                    }, 550);
+                }, 1800); 
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        if (entry.target.id === 'last-block') {
+                            triggerEndingScene();
+                        }
+                    } else {
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, options);
+
+            blocks.forEach(block => observer.observe(block));
+
+            letterScroller.addEventListener('scroll', () => {
+                const maxScroll = letterScroller.scrollHeight - letterScroller.clientHeight;
+                if (letterScroller.scrollTop >= maxScroll - 15) {
+                    triggerEndingScene();
+                }
+            });
+        }
+           const bgMusic = document.getElementById('bgMusic');
+
+           document.addEventListener('click', () => {
+           bgMusic.play();
+}, { once: true });
+    </script>
+</body>
+</html>
