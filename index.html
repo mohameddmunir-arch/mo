@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إلى ليا</title>
     
-    <!-- استدعاء الخطوط الكلاسيكية والعتيقة -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rakkas&family=Reem+Kufi:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
     
     <link rel="preload" href="next3d.ai-Generated-Model-3cv4pp.glb" as="fetch" crossorigin>
-    <!-- سكريبت تشغيل الـ 3D بأعلى كفاءة تفاعلية -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <audio id="bgMusic" loop>
@@ -19,22 +17,22 @@
     </audio>
 
     <style>
-        /* نظام تصميم الألوان والمتغيرات الأساسية */
         :root {
             --bg-crimson: #1a0508;
             --bg-crimson-dark: #0f0305;
             --gold: #dfb15b;
             --gold-glow: rgba(223, 177, 91, 0.25);
-            --warm-beige: #f4ebd0;
-            --parchment-burn: rgba(139, 90, 43, 0.25);
             
-            /* الخطوط الموحدة */
-            --font-global: 'Aref Ruqaa', serif;
-            --font-letter-kacst: 'KacstArt', 'Aref Ruqaa', 'Amiri', serif; 
+            --paper-bg: #C8A97E;
+            --paper-text: #3A2A1D;
+            --paper-gold-accent: #B08D57;
+            --parchment-burn: rgba(58, 42, 29, 0.3);
+            
+            --font-global: 'Rakkas', serif;
+            --font-letter-kufi: 'Reem Kufi', sans-serif; 
             --font-countdown: 'Playfair Display', serif;
         }
 
-        /* تصفير الهوامش وتجهيز الشاشة */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -52,7 +50,6 @@
             font-family: var(--font-global);
         }
 
-        /* طبقة حبيبات الفيلم السينمائي العتيق */
         .grain-overlay {
             position: fixed;
             top: 0;
@@ -64,7 +61,6 @@
             z-index: 1000;
         }
 
-        /* الحاوية الرئيسية للمشاهد */
         .viewport {
             position: relative;
             width: 100%;
@@ -72,7 +68,6 @@
             overflow: hidden;
         }
 
-        /* الإعداد الأساسي للمشاهد والأنميشن الهادئ */
         .scene {
             position: absolute;
             top: 0;
@@ -83,7 +78,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.5s;
             opacity: 0;
             visibility: hidden;
             z-index: 10;
@@ -103,30 +98,76 @@
             width: 100%;
             height: 100%;
             cursor: pointer;
-            z-index: 30; /* رفع مساحة النقر لضمان استجابة الشاشة بالكامل */
+            z-index: 30;
         }
 
-        /* ==================== مشهد العداد التنازلي المهدأ الـ Vintage ==================== */
-        #scene-countdown {
+        /* ==================== المشاهد الخمسة الأولى الجديدة ==================== */
+        .intro-scene {
             background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
-            z-index: 50;
+            text-align: center;
+            padding: 40px 30px;
         }
 
-        .countdown-number {
-            font-size: 140px;
-            font-weight: 400;
-            font-family: var(--font-countdown);
-            font-style: italic;
-            color: rgba(223, 177, 91, 0.9);
-            text-shadow: 0 0 30px rgba(223, 177, 91, 0.4), 0 0 5px rgba(223, 177, 91, 0.2);
-            transform: scale(0.85);
+        .intro-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gold);
             opacity: 0;
-            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.9s ease;
+            transform: translateY(20px);
+            transition: opacity 2.5s ease 0.3s, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+            text-shadow: 0 0 20px rgba(223, 177, 91, 0.15);
+            max-width: 680px;
+            line-height: 1.7;
         }
 
-        .countdown-number.show {
-            transform: scale(1);
+        .scene.active .intro-text {
             opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* صفحة الصورة (الرابعة) */
+        #scene-intro4 {
+            background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
+            text-align: center;
+            padding: 30px;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .moon-container {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(223, 177, 91, 0.3);
+            box-shadow: 0 0 40px rgba(223, 177, 91, 0.1), 0 0 80px rgba(0,0,0,0.6);
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 2s ease 0.4s, transform 2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+        }
+
+        .scene.active .moon-container {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .moon-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .moon-caption {
+            font-size: 26px;
+            color: rgba(223, 177, 91, 0.75);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 2.5s ease 1s, transform 2.5s ease 1s;
+        }
+
+        .scene.active .moon-caption {
+            opacity: 0.75;
+            transform: translateY(0);
         }
 
         /* ==================== المشهد الأول: شاشة الترحيب ==================== */
@@ -134,6 +175,10 @@
             background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
             text-align: center;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .flower-3d-container {
@@ -144,6 +189,8 @@
             filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
             z-index: 6;
             outline: none;
+            display: block;
+            margin: 0 auto;
         }
 
         .flower-3d-container:hover, .flower-3d-container:active {
@@ -163,8 +210,34 @@
             margin-top: 20px;
             opacity: 0.9;
             cursor: pointer;
-            animation: softPulse 3s ease-in-out infinite alternate;
+            animation: softPulse 3.5s ease-in-out infinite alternate;
             z-index: 6;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* ==================== المشاهد الخمسة بعد الوردة ==================== */
+        .new-scene {
+            background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .new-scene-line-1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--gold);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 2.8s ease 0.3s, transform 2.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+            text-shadow: 0 0 15px rgba(223, 177, 91, 0.2);
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .scene.active .new-scene-line-1 {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ==================== المشهد الثاني: الإهداء ==================== */
@@ -187,7 +260,7 @@
             margin-bottom: 25px;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 1.2s ease 0.3s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+            transition: opacity 1.8s ease 0.3s, transform 1.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
         }
 
         .dedication-line-2 {
@@ -199,7 +272,7 @@
             margin: 0 auto;
             opacity: 0;
             transform: translateY(15px);
-            transition: opacity 1.2s ease 0.8s, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.8s;
+            transition: opacity 2.5s ease 0.8s, transform 2.5s cubic-bezier(0.25, 1, 0.5, 1) 0.8s;
         }
 
         #scene-dedication.active .dedication-line-1 {
@@ -225,7 +298,7 @@
             z-index: 6;
         }
 
-        /* ==================== المشهد الثالث: صفحة الأيام بالتعديلات الجديدة ==================== */
+        /* ==================== المشهد الثالث: صفحة الأيام ==================== */
         #scene-tuesday {
             background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
         }
@@ -240,11 +313,8 @@
             padding: 5vh 4vw;
             z-index: 6;
             box-sizing: border-box;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: opacity, transform;
         }
 
-        /* الجزء العلوي: يوم الثلاثاء مرفوع للأعلى مع الرمز */
         .top-tuesday-section {
             display: flex;
             flex-direction: column;
@@ -270,7 +340,6 @@
             filter: drop-shadow(0 0 10px rgba(240, 160, 32, 0.2));
         }
 
-        /* الجزء الأوسط: الجملة الفاصلة وكلمة "أَوْ" بالمنتصف */
         .middle-phrase-section {
             text-align: center;
             margin: 15px 0;
@@ -289,15 +358,13 @@
         }
 
         .middle-or {
-              font-size: 24px;
-              font-weight: 700;
-              color: rgba(223, 177, 91, 0.55);
-
-               position: relative;
-               top: 100px;
+            font-size: 24px;
+            font-weight: 700;
+            color: rgba(223, 177, 91, 0.55);
+            position: relative;
+            top: 100px;
         }
 
-        /* الجزء السفلي: تقسيم متوازن تماماً لليمين واليسار */
         .bottom-days-grid {
             width: 100%;
             max-width: 1000px;
@@ -321,18 +388,12 @@
         }
 
         .wednesday-text { color: #ffa834; }
-        .thursday-text { color: #22c55e; } /* اللون الأخضر المتناسق مع مسار الـ SVG المحدث */
+        .thursday-text { color: #22c55e; }
 
-        .wednesday-symbol-container {
+        .wednesday-symbol-container, .thursday-symbol-container {
             width: 100%;
             height: 180px;
-            filter: drop-shadow(0 0 15px rgba(255, 168, 52, 0.15));
-        }
-
-        .thursday-symbol-container {
-            width: 100%;
-            height: 180px;
-            filter: drop-shadow(0 0 15px rgba(34, 197, 94, 0.15));
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.15));
         }
 
         .wednesday-symbol, .thursday-symbol {
@@ -340,23 +401,17 @@
             height: 100%;
         }
 
-        /* تأثير الخروج المتدرج المهدأ للمحتويات */
-        .days-layout-container.fade-out-smooth {
-            opacity: 0;
-            transform: scale(0.98);
-        }
-
-        /* ==================== المشهد الرابع: الرسالة بانتقالات الظهور الفورية ==================== */
+        /* ==================== المشهد الرابع: الرسالة ==================== */
         #scene-letter {
-            background-color: #eee1c5;
+            background-color: var(--paper-bg); 
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(250, 243, 224, 0.75) 0%, rgba(215, 195, 155, 0.95) 100%),
-                linear-gradient(to bottom, rgba(45, 11, 17, 0.08) 0%, rgba(45, 11, 17, 0.12) 100%);
-            box-shadow: inset 0 0 120px var(--parchment-burn);
-            color: #2a0a0e;
+                radial-gradient(circle at 50% 50%, rgba(223, 193, 153, 0.4) 0%, rgba(176, 141, 87, 0.2) 100%),
+                linear-gradient(to bottom, rgba(58, 42, 29, 0.03) 0%, rgba(58, 42, 29, 0.07) 100%);
+            box-shadow: inset 0 0 140px var(--parchment-burn);
+            color: var(--paper-text); 
             opacity: 0;
             transform: scale(1);
-            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         #scene-letter.active {
@@ -374,7 +429,7 @@
             padding-bottom: 50vh;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            -ms-overflow-style: none;
+            scroll-snap-type: y mandatory;
         }
 
         .letter-scroll-container::-webkit-scrollbar {
@@ -384,41 +439,41 @@
         }
 
         .letter-block {
-            min-height: 25vh;
+            min-height: 20vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 0 24px;
             scroll-snap-align: center;
-            transition: all 0.4s ease;
-            opacity: 0.15;
-            filter: blur(1px);
-            will-change: opacity, transform;
+            transition: opacity 1.3s cubic-bezier(0.25, 1, 0.3, 1), filter 1.3s cubic-bezier(0.25, 1, 0.3, 1), transform 1.3s cubic-bezier(0.25, 1, 0.3, 1);
+            opacity: 0;
+            filter: blur(14px);
+            transform: scale(0.95) translateY(8px);
+            will-change: opacity, filter, transform;
         }
 
         .letter-block p {
-            font-family: var(--font-letter-kacst);
-            font-weight: bold;
-            font-size: 32px;
+            font-family: var(--font-letter-kufi);
+            font-weight: 700;
+            font-size: 30px;
             line-height: 1.8;
             max-width: 800px;
-            color: #3d1217;
+            color: var(--paper-text);
             letter-spacing: 0.5px;
+            text-shadow: 0 0 1px rgba(176, 141, 87, 0.15); 
         }
 
         .letter-block.active {
             opacity: 1;
             filter: blur(0px);
+            transform: scale(1) translateY(0);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.3, 1), filter 1s cubic-bezier(0.25, 1, 0.3, 1), transform 1s cubic-bezier(0.25, 1, 0.3, 1);
         }
 
-        /* ==================== المشهد الأخير: الخاتمة والتحكم التفاعلي بالوردة ==================== */
+        /* ==================== المشهد الأخير ==================== */
         #scene-ending {
             background: radial-gradient(circle at center, var(--bg-crimson) 0%, var(--bg-crimson-dark) 100%);
-            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
-        }
-
-        #scene-ending {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -431,27 +486,34 @@
             height: 320px;
             cursor: grab;
             z-index: 40;
-            position: relative;
-            top: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 0;
-            margin-left: 0;
+            margin: 0 auto;
         }
         
         #scene-ending .flower-3d-container:active {
             cursor: grabbing;
         }
 
-        /* توافق الشاشات والهواتف المتنقلة */
+        .ending-text {
+            text-align: center;
+            font-size: 28px;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(223, 177, 91, 0.2);
+            opacity: 0.9;
+            z-index: 50;
+            padding: 0 20px;
+            width: 100%;
+        }
+
         @media (max-width: 768px) {
             .flower-3d-container { width: 230px; height: 230px; }
-        #scene-ending .flower-3d-container { width: 240px; height: 240px; }
+            #scene-ending .flower-3d-container { width: 240px; height: 240px; }
             .ending-text { font-size: 20px; }
             .welcome-text { font-size: 22px; }
             .dedication-line-1 { font-size: 42px; }
             .dedication-line-2 { font-size: 24px; padding: 0 15px; }
+            .intro-text { font-size: 24px; }
+            .moon-container { width: 200px; height: 200px; }
+            .moon-caption { font-size: 20px; }
             
             .tuesday-title { font-size: 26px; }
             .tuesday-symbol-container { width: 150px; height: 70px; }
@@ -461,20 +523,9 @@
             .wednesday-symbol-container, .thursday-symbol-container { height: 110px; }
             
             .letter-block p { font-size: 22px; line-height: 1.7; max-width: 100%; }
-            .letter-block { min-height: 22vh; padding: 0 16px; }
-            .countdown-number { font-size: 90px; }
+            .letter-block { min-height: 20vh; padding: 0 16px; }
         }
          
-       .ending-text {
-    margin-top: 0;
-    text-align: center;
-    font-size: 28px;
-    color: var(--gold);
-    text-shadow: 0 0 15px rgba(223, 177, 91, 0.2);
-    opacity: 0.9;
-    z-index: 50;
-    padding: 0 20px;
-    }
         @keyframes softPulse {
             0% { opacity: 0.7; }
             100% { opacity: 1; }
@@ -493,12 +544,40 @@
 
     <div class="viewport">
 
-        <!-- مشهد العداد التنازلي المهدأ الكلاسيكي من 3 إلى 0 -->
-        <div id="scene-countdown" class="scene active">
-            <div id="countdown-num" class="countdown-number">3</div>
+        <!-- المشهد الأول الجديد: السؤال -->
+        <div id="scene-intro1" class="scene intro-scene active">
+            <div class="intro-text">انتي أي لينك بيتبعتلك بتفتحيه كده؟</div>
+            <div class="next-trigger-area" id="to-intro2-trigger"></div>
         </div>
 
-        <!-- المشهد الأول: شاشة الترحيب بالوردة الـ 3D المستقرة -->
+        <!-- المشهد الثاني الجديد -->
+        <div id="scene-intro2" class="scene intro-scene">
+            <div class="intro-text">اخيرا قدرت اهكرك</div>
+            <div class="next-trigger-area" id="to-intro3-trigger"></div>
+        </div>
+
+        <!-- المشهد الثالث الجديد -->
+        <div id="scene-intro3" class="scene intro-scene">
+            <div class="intro-text">اووه شكلك قمر جدا </div>
+            <div class="next-trigger-area" id="to-intro4-trigger"></div>
+        </div>
+
+        <!-- المشهد الرابع الجديد: الصورة -->
+        <div id="scene-intro4" class="scene intro-scene">
+            <div class="moon-container">
+                <img src="moon.png" alt="صورة القمر" />
+            </div>
+            <div class="moon-caption"></div>
+            <div class="next-trigger-area" id="to-intro5-trigger"></div>
+        </div>
+
+        <!-- المشهد الخامس الجديد -->
+        <div id="scene-intro5" class="scene intro-scene">
+            <div class="intro-text">كفاية لعب بقا.. يلا نبدأ </div>
+            <div class="next-trigger-area" id="to-welcome-trigger"></div>
+        </div>
+
+        <!-- المشهد الأول: شاشة الترحيب -->
         <div id="scene-welcome" class="scene">
             <div class="flower-3d-container" id="start-btn">
                 <model-viewer 
@@ -515,7 +594,33 @@
             <div class="welcome-text" id="start-text">خُذِي وَرْدَتَكِ قَبْلَ أَنْ نَبْدَأَ</div>
         </div>
 
-        <!-- المشهد الثاني: الإهداء الموحد -->
+        <!-- الصفحات بعد الوردة -->
+        <div id="scene-new1" class="scene new-scene">
+            <div class="new-scene-line-1">عارف انك حاليا بتمري بفترة صعبة</div>
+            <div class="next-trigger-area" id="to-new2-trigger"></div>
+        </div>
+
+        <div id="scene-new2" class="scene new-scene">
+            <div class="new-scene-line-1">انتي حاسة انك تايهة او بلا معنى</div>
+            <div class="next-trigger-area" id="to-new3-trigger"></div>
+        </div>
+
+        <div id="scene-new3" class="scene new-scene">
+            <div class="new-scene-line-1">يمكن عشان انشغلتي عن نفسك في حاجات اتفرضت عليكي</div>
+            <div class="next-trigger-area" id="to-new4-trigger"></div>
+        </div>
+
+        <div id="scene-new4" class="scene new-scene">
+            <div class="new-scene-line-1">لكن الحقيقة أن معناكي أكثر قيمة من أن يدرك</div>
+            <div class="next-trigger-area" id="to-new5-trigger"></div>
+        </div>
+
+        <div id="scene-new5" class="scene new-scene">
+            <div class="new-scene-line-1">المهم قررت ارخم عليكي واجرب فيكي مهاراتي في الشعر</div>
+            <div class="next-trigger-area" id="to-dedication-trigger"></div>
+        </div>
+
+        <!-- المشهد: الإهداء -->
         <div id="scene-dedication" class="scene">
             <div class="dedication-content">
                 <div class="dedication-line-1">إِلَى لِيَا</div>
@@ -525,11 +630,10 @@
             <div class="next-trigger-area" id="to-tuesday-trigger"></div>
         </div>
 
-        <!-- المشهد الثالث: صفحة الأيام المحدثة (تنتقل بالنقر في أي مكان) -->
+        <!-- المشهد: صفحة الأيام -->
         <div id="scene-tuesday" class="scene">
             <div class="days-layout-container" id="days-main-wrapper">
                 
-                <!-- فوق بالنص: عنوان يوم الثلاثاء مع رمزه -->
                 <div class="top-tuesday-section">
                     <div class="tuesday-title">أَكْتُبُهَا إِلَيْكِ فِي يَوْمِ الثُّلَاثَاءِ</div>
                     <div class="tuesday-symbol-container">
@@ -539,16 +643,12 @@
                     </div>
                 </div>
 
-                <!-- في المنتصف تماماً: العبارة الرابطة مضافاً إليها كلمة "أَوْ" المنسقة -->
                 <div class="middle-phrase-section">
                     <div class="middle-phrase">لَا أَدْرِي فِي أَيِّ يَوْمٍ تَصِلُكِ رِسَالَتِي</div>
                     <div class="middle-or">أَوْ</div>
                 </div>
 
-                <!-- بالأسفل: الأربعاء على اليمين والخميس الحلزوني الجديد على اليسار -->
                 <div class="bottom-days-grid">
-                    
-                    <!-- اليمين: يوم الأربعاء مع الكلمة المكتوبة ورمز الـ SVG البرتقالي -->
                     <div class="day-column">
                         <div class="day-column-title wednesday-text">يَوْمُ الْأَرْبِعَاءِ</div>
                         <div class="wednesday-symbol-container">
@@ -562,7 +662,6 @@
                         </div>
                     </div>
 
-                    <!-- اليسار: يوم الخميس مع الكلمة والرمز اللولبي المحدث كلياً والمميز بدقته وانسيابه -->
                     <div class="day-column">
                         <div class="day-column-title thursday-text">يَوْمُ الْخَمِيسِ</div>
                         <div class="thursday-symbol-container">
@@ -571,70 +670,84 @@
                             </svg>
                         </div>
                     </div>
-
                 </div>
 
             </div>
-            <!-- مساحة النقر الشاملة للانتقال بمجرد الضغط في أي مكان في صفحة الأيام -->
             <div class="next-trigger-area" id="to-letter-trigger"></div>
             <div class="click-hint">اِضْغَطِي فِي أَيِّ مَكَانٍ لِلْمُتَابَعَةِ</div>
         </div>
 
-        <!-- المشهد الرابع: الرسالة -->
+        <!-- المشهد: الرسالة -->
         <div id="scene-letter" class="scene">
             <div class="letter-scroll-container" id="letter-scroller">
-                <div class="letter-block"><p>أَكْتُبُ لَكِ لَعَلِّي أَرْفُقُ بِقَلْبٍ</p></div>
-                <div class="letter-block"><p>حَمَلَ قَسْوَةَ الْأَيَّامِ وَحْدَهُ</p></div>
-                <div class="letter-block"><p>وَتَحَمَّلَ مِنَ الصِّعَابِ مَا تَخِرُّ عَنْهُ الْجِبَالُ.</p></div>
+                <div class="letter-block"><p>أَكْتُبُ لَكِ</p></div>
+                <div class="letter-block"><p>لَعَلِّي أَرْفُقُ بِقَلْبٍ حَمَلَ قَسْوَةَ الأَيَّامِ وَحْدَهُ</p></div>
+                <div class="letter-block"><p>وَتَحَمَّلَ مِنَ الصِّعَابِ مَا تَخِرُّ عَنْهُ الجِبَالُ.</p></div>
                 <div class="letter-block"><p>قَدْ عَلِمْتُ أَنَّكِ فِي أَيَّامِ تِيهٍ</p></div>
-                <div class="letter-block"><p>كَفُلْكٍ هَائِمٍ وَسَطَ عَاصِفَةٍ شَجَّتْ سُكُونَ الْبَحْرِ،</p></div>
+                <div class="letter-block"><p>كَفُلْكٍ هَائِمٍ وَسَطَ عَاصِفَةٍ</p></div>
+                <div class="letter-block"><p>شَجَّتْ سُكُونَ البَحْرِ،</p></div>
                 <div class="letter-block"><p>كَأَنَّ جُهُودَكِ بِلَا مَعْنَى</p></div>
-                <div class="letter-block"><p> كَأَنَّكِ حِمْلٌ زَائِدٌ يُلْقَى لِلنَّجَاةِ.</p></div>
-                <div class="letter-block"><p>أَوْ كنَجْمَةٍ نَزَلَتْ مِنْ سَمَائِهَا لِتُرْشِدَ التَّائِهِينَ</p></div>
-                <div class="letter-block"><p> فَضَلَّتْ هِيَ طَرِيقَهَا..</p></div>
-                <div class="letter-block"><p>لَا لِنَقْصٍ فِي بَرِيقِهَا، بَلْ خَانَتْهَا عَتَمَةُ السَّمَاءِ</p></div>
-                <div class="letter-block"><p>لَوْ أَبْصَرْتِ نَفْسَكِ بِعَيْنَيْينِ غَيْرِ عُيُونٍ قَسَتْ عَلَيْكِ</p></div>
-                <div class="letter-block"><p>لَأَبْصَرْتِ جَمَالاً غَابَ عَنْ نَاظِرَيْكِ،</p></div>
+                <div class="letter-block"><p>كَأَنَّكِ حِمْلٌ زَائِدٌ يُلْقَى لِلنَّجَاةِ.</p></div>
+                <div class="letter-block"><p>أَوْ كَنَجْمَةٍ نَزَلَتْ مِنْ سَمَائِهَا</p></div>
+                <div class="letter-block"><p>لِتُرْشِدَ التَّائِهِِينَ،</p></div>
+                <div class="letter-block"><p>فَضَلَّتْ هِيَ طَرِيقَهَا..</p></div>
+                <div class="letter-block"><p>لَا لِنَقْصٍ فِي بَرِيقِهَا،</p></div>
+                <div class="letter-block"><p>بَلْ خَانَتْهَا عَتَمَةُ السَّمَاءِ.</p></div>
+                <div class="letter-block"><p>لَوْ أَبْصَرْتِ نَفْسَكِ بِعَيْنَيْنِ غَيْرِ عُيُونٍ قَسَتْ عَلَيْكِ</p></div>
+                <div class="letter-block"><p>لَأَبْصَرْتِ جَمَالاً غَابَ عَنْ نَاظِرَيْكِ</p></div>
                 <div class="letter-block"><p>لَرَأَيْتِ قَلْباً كَتُوماً مُثْقَلاً بِالأَحْمَالِ</p></div>
-                <div class="letter-block"><p>وَرُوحاً أَنْهَكَتْهَا المَلَامَةُ...</p></div>
+                <div class="letter-block"><p>وَرُوحاً أَنْهَكَتْهَا المَلَامَةُ.</p></div>
                 <div class="letter-block"><p>يَا صَغِيرَتِي، انْظُرِي لِنَفْسِكِ بِعَيْنِ رَحْمَةٍ آثَرْتِ بِهَا غَيْرَكِ.</p></div>
-                <div class="letter-block"><p>أُوصِيكِ بِأَنْ تَكُونِي بِذَاتِكِ زَهْواً.،</p></div>
+                <div class="letter-block"><p>أُوصِيكِ أَنْ تَكُونِي بِذَاتِكِ زَهْوًا</p></div>
                 <div class="letter-block"><p>فَكَمْ مِنْ كَرْبٍ كَانَ يُفْتَرَضُ بِهِ أَنْ يُخْمِدَ نُورَكِ</p></div>
                 <div class="letter-block"><p>فَمَا زَادَكِ إِلَّا اتِّقَاداً وَبَهَاءً.</p></div>
-                <div class="letter-block"><p>يَا صَغِيرَتِي، إِنَّنِي فِي حِيرَةٍ مِنْ أَمْرِي،</p></div>
-                <div class="letter-block"><p>مَا رَأَيْتُكِ يَوْماً إِلَّا حَنُونَةً كَأُمِّ اشْتَاقَتْ لِوَلَدِهَا،</p></div>
-                <div class="letter-block"><p>فَأَخْبِرِينِي كَيْفَ بِأَرَقِّ الْخَلْقِ فُؤَادًا أَنْ يَحْرِمَ نَفْسَهُ عِنَاقاً طَالَ غِيَابُهُ؟</p></div>
-                <div class="letter-block"><p>وَاعَجَبِي كَيْفَ تُدَاوِينَ الْجِرَاحَ وَتَتْرُكِينَ جُرْحَكِ عَارِياً!</p></div>
-                <div class="letter-block"><p>أُوصِيكِ بأَنْ تُدْرِكِي أَنَّ نَقَاءَ رُوحِكِ وَطِيبِ قَلْبِكِ</p></div>
-                <div class="letter-block"><p>وَرَحْمَةٍ لَمْ يُدَنِّسْهَا جَفَاءُ الزَّمَانِ لَا يُنظَرُ إِلَيْهِم بِعَيْنِ مَنْقَصَةٍ،</p></div>
-                <div class="letter-block"><p>إِنَّمَا يُصَانُ كَمَا الشُّمُوعُ فِي لَيَالٍ اشْتَدَّتْ ظُلْمَتُهَا؛</p></div>
-                <div class="letter-block"><p>فَلِجَمَالٍ كَهَذَا عَزِيزٌ لَا يُنَالُ.</p></div>
-                <div class="letter-block"><p>يَا صَغِيرَتِي, رَقِيقَةٌ أَنْتِ كَجَنَاحَيْ فَرَاشَةٍ لَمْ يُحْدِثَا صَخَباً،</p></div>
+                <div class="letter-block"><p>إِنَّنِي فِي حِيرَةٍ مِنْ أَمْرِي</p></div>
+                <div class="letter-block"><p>مَا رَأَيْتُكِ يَوْماً إِلَّا حَنُونَةً كَأُمٍّ اشْتَاقَتْ لِوَلَدِهَا، فَأَخْبِرِينِي</p></div>
+                <div class="letter-block"><p>كَيْفَ بِأَرَقِّ الخَلْقِ فُؤَادً</p></div>
+                <div class="letter-block"><p>أَنْ يَحْرِمَ نَفْسَهُ عِنَاقاً طَالَ غِيَابُهُ؟</p></div>
+                <div class="letter-block"><p>وَاعَجَبِي كَيْفَ تُدَاوِينَ الجِرَاحَ</p></div>
+                <div class="letter-block"><p>وَجُرْحُكِ بِالرِّضَا مَكْشُوفُ</p></div>
+                <div class="letter-block"><p>يَا صَغِيرَتِي،</p></div>
+                <div class="letter-block"><p>رَقِيقَةٌ أَنْتِ كَجَنَاحَيْ فَرَاشَةٍ</p></div>
+                <div class="letter-block"><p>لَمْ يُحْدِثَا صَخَباً قَطُّ</p></div>
                 <div class="letter-block"><p>وَإِنَّمَا هُدُوءٌ يُدْرَكُ لِوَقَارٍ لَا لِوَهْنٍ.</p></div>
-                <div class="letter-block"><p>اِعْلَمِي أَنِّي مَا رَأَيْتُ فِي دُمُوعِكِ وَهْناً </p></div>
-                <div class="letter-block"><p>كَلَّا </p></div>
-                <div class="letter-block"><p>إِنَّمَا قَطَرَاتُ نَدَىً تَسَابَقَتْ شَوْقاً لِتَصِلَ إِلَى خَدَّيْكِ.</p></div>
-                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَخْجَلِي مِنْ دَمْعَةٍ سَالَتْ مِنْ عَيْنَيْكِ إِثْرَ مَا عَانَيْتِ مِنَ الصِّعَابِ،</p></div>
-                <div class="letter-block"><p>فَمَا كَانَ الْحُزْنُ ضَعْفاً وَلَا الدَّمْعُ انْكِسَاراً.</p></div>
-                <div class="letter-block"><p>بَلْ هِيَ نِعْمَةُ اللِّينِ رُزِقْتِهَا وَهَيِّنٌ سَكَنَ قَلْبَكِ فِي زَمَانٍ مَالَ إِلَى الْقَسْوَةِ.</p></div>
-                <div class="letter-block"><p>فَمَا تُقَاسُ قُوَاكِ بِقَدْرِ مَا تَكْتُمِينَ مِنْ أَلَمٍ،</p></div>
-                <div class="letter-block"><p>بَلْ بِكُلِّ مَرَّةٍ أَثْقَلَتْكِ أَحْمَالُ الْحَيَاةِ</p></div>
-                <div class="letter-block"><p>فَحَفِظْتِ طَهَارَةَ قَلْبِكِ وَنَهَضْتِ ثُمَّ مَضَيْتِ فِي دَرْبِكِ.</p></div>
-                <div class="letter-block"><p>يَا صَغِيرَتِي, أَمَا آنَ لِهَذَا الْفُؤَادِ الْقَلِقِ أَنْ يَسْتَرِيحَ؟</p></div>
+                <div class="letter-block"><p>أُوصِيكِ أَنْ تُدْرِكِي</p></div>
+                <div class="letter-block"><p>أَنَّ نَقَاءَ رُوحَكِ وَطِيبِ قَلْبِك</p></div>
+                <div class="letter-block"><p>وَرَحْمَةً لَمْ يُدَنِّسْهَا جَفَاءُ الزَّمَانِ</p></div>
+                <div class="letter-block"><p>لَا يُنْظَرُ إِلَيْهِم بِعَيْنِ مَنْقَصَةٍ</p></div>
+                <div class="letter-block"><p>وَإِنَّمَا يُصَانُ</p></div>
+                <div class="letter-block"><p>كَمَا الشُّمُوعُ فِي لَيَالٍ اشْتَدَّتْ ظُلْمَتُهَا؛</p></div>
+                <div class="letter-block"><p>فَلِجَمَالٍ كَهَذَا عَزِيزٌ لَا يُنَالُ.</p></div>
+                <div class="letter-block"><p>اِعْلَمِي أَنِّي مَا رَأَيْتُ فِي دُمُوعِكِ وَهْناً</p></div>
+                <div class="letter-block"><p>كَلّا، إِنَّمَا قَطَرَاتُ نَدَىً</p></div>
+                <div class="letter-block"><p>تَسَابَقَتْ شَوْقاً لِتَصِلَ إِلَى خَدَّيْكِ،</p></div>
+                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَخْجَلِي مِنْ دَمْعَةٍ سَالَتْ مِنْ عَيْنَيْكِ</p></div>
+                <div class="letter-block"><p>إِثْرَ مَا عَانَيْتِ مِنَ الصِّعَابِ</p></div>
+                <div class="letter-block"><p>فَمَا كَانَ الحُزْنُ ضَعْفاً</p></div>
+                <div class="letter-block"><p>وَلَا الدَّمْعُ انْكِسَاراً،</p></div>
+                <div class="letter-block"><p>بَلْ هِيَ نِعْمَةُ اللِّينِ رُزِقْتِهَا وَهَيِّنٌ سَكَنَ قَلْبَكِ</p></div>
+                <div class="letter-block"><p>فِي زَمَانٍ مَالَ إِلَى القَسْوَةِ.</p></div>
+                <div class="letter-block"><p>فَمَا كَانَتْ قُوَاكِ قَدْرَ مَا تَكْتُمِينَ،</p></div>
+                <div class="letter-block"><p>بَلْ حِينَ أَثْقَلَتْكِ الحَيَاةُ</p></div>
+                <div class="letter-block"><p>صُنْتِ طُهْرَ قَلْبِكِ</p></div>
+                <div class="letter-block"><p>وَنَهَضْتِ مَاضِيةً فِي دَرْبِكِ.</p></div>
+                <div class="letter-block"><p>يَا صَغِيرَتِي، أَمَا آنَ لِهَذَا الفُؤَادِ القَلِقِ أَنْ يَسْتَرِيحَ؟</p></div>
                 <div class="letter-block"><p>أَمَا آنَ لِرُوحٍ مُرْتَجِفَةٍ أَنْ تَطْمَئِنَّ؟</p></div>
-                <div class="letter-block"><p>أَخْبِرِينِي إِذَا مَا جَفَا النَّاسُ قَسْوَةً وَجَارَ الدَّهْرُ غَبْنَةً،</p></div>
-                <div class="letter-block"><p>إِلَى مَنْ يَسْتَنِدُ هَذَا الْقَلْبُ الصَّغِيرُ؟</p></div>
-                <div class="letter-block"><p>مَنْ يُهَوِّنُ عَلَيْهِ وَطْأَةَ الأَيَّامِ؟ أَخْبِرِينِي أَيُّ مَلَاذٍ يَأْوِيهِ؟</p></div>
-                <div class="letter-block"><p>إِنْ ظَفِرَ بِأَضْلُعِكِ سَكَناً فَهَنِيئاً لَهُ خَيْرُ السَّكَنِ كَانَ.</p></div>
-                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَحْرِمِيهِ هَكَذَا نِعْمَةً.</p></div>
+                <div class="letter-block"><p>أَخْبِرِينِي إِذَا مَا جَفَا النَّاسُ قَسْوَةً</p></div>
+                <div class="letter-block"><p>وَجَارَ الدَّهْرُ غَبْنَةً</p></div>
+                <div class="letter-block"><p>إِلَى مَنْ يَسْتَنِدُ هَذَا القَلْبُ الصَّغِيرُ؟</p></div>
+                <div class="letter-block"><p>مَنْ يُهَوِّنُ عَلَيْهِ وَطْأَةَ الأَيَّامِ؟</p></div>
+                <div class="letter-block"><p>أَخْبِرِينِي أَيُّ مَلَاذٍ يَأْوِيهِ؟</p></div>
+                <div class="letter-block"><p>إِنْ ظَفِرَ بِأَضْلُعِكِ سَكَناً</p></div>
+                <div class="letter-block"><p>هَنِيئاً لَهُ خَيْرُ السَّكَنِ كَانَ</p></div>
+                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَحْرِمِيهِ هَكَذَا نِعْمَةً</p></div>
                 <div class="letter-block" id="last-block"><p>فَرَقِيقٌ كَهَذَا أَحَقُّ أَنْ يُضَمَّ لَا أَنْ يُضَام.</p></div>
             </div>
         </div>
 
-        <!-- المشهد الأخير: الخاتمة التفاعلية المسرَّعة بالتحكم الكامل لليد والماوس للوردة -->
+        <!-- المشهد الأخير -->
         <div id="scene-ending" class="scene">
-            <div class="ending-text">وَجْهُك كَأَنَّمَا خُلِقَ مِنْ ضِيَاءٍ، 
-                                     وَرُوحُك هِيَ اللُّؤْلُؤُ الْمَكْنُونُ</div>
+            <div class="ending-text">وَجْهُك كَأَنَّمَا خُلِقَ مِنْ ضِيَاءٍ، <br> وَرُوحُك هِيَ اللُّؤْلُؤُ الْمَكْنُونُ</div>
             <div class="flower-3d-container">
                 <model-viewer 
                     id="ending-model"
@@ -654,140 +767,84 @@
     </div>
 
     <script>
-        const sceneCountdown = document.getElementById('scene-countdown');
+        const sceneIntro1 = document.getElementById('scene-intro1');
+        const sceneIntro2 = document.getElementById('scene-intro2');
+        const sceneIntro3 = document.getElementById('scene-intro3');
+        const sceneIntro4 = document.getElementById('scene-intro4');
+        const sceneIntro5 = document.getElementById('scene-intro5');
         const sceneWelcome = document.getElementById('scene-welcome');
+        const sceneNew1 = document.getElementById('scene-new1');
+        const sceneNew2 = document.getElementById('scene-new2');
+        const sceneNew3 = document.getElementById('scene-new3');
+        const sceneNew4 = document.getElementById('scene-new4');
+        const sceneNew5 = document.getElementById('scene-new5');
         const sceneDedication = document.getElementById('scene-dedication');
         const sceneTuesday = document.getElementById('scene-tuesday');
         const sceneLetter = document.getElementById('scene-letter');
         const sceneEnding = document.getElementById('scene-ending');
 
-        const countdownNum = document.getElementById('countdown-num');
         const startBtn = document.getElementById('start-btn');
-        const startText = document.getElementById('start-text');
-        const toTuesdayTrigger = document.getElementById('to-tuesday-trigger');
-        const toLetterTrigger = document.getElementById('to-letter-trigger');
-        const daysMainWrapper = document.getElementById('days-main-wrapper');
         const letterScroller = document.getElementById('letter-scroller');
+        const endingModel = document.getElementById('ending-model');
+        const bgMusic = document.getElementById('bgMusic');
 
-        let currentCount = 3;
-
-        function runCountdown() {
-            countdownNum.innerText = currentCount;
-            setTimeout(() => countdownNum.classList.add('show'), 50);
-
-            const interval = setInterval(() => {
-                countdownNum.classList.remove('show');
-                
-                setTimeout(() => {
-                    currentCount--;
-                    if (currentCount >= 0) {
-                        countdownNum.innerText = currentCount;
-                        countdownNum.classList.add('show');
-                    } else {
-                        clearInterval(interval);
-                        sceneCountdown.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-                        sceneCountdown.style.opacity = '0';
-                        setTimeout(() => {
-                            sceneCountdown.classList.remove('active');
-                            sceneWelcome.classList.add('active');
-                        }, 800);
-                    }
-                }, 200); 
-            }, 750); 
-        }
-
-        window.addEventListener('DOMContentLoaded', runCountdown);
-
-        function transitionToScene(current, next) {
-            current.classList.remove('active');
+        function switchScene(currentScene, nextScene) {
+            currentScene.classList.remove('active');
             setTimeout(() => {
-                next.classList.add('active');
-            }, 200); 
-        }
-
-        function handleStart() {
-            startBtn.style.transform = "scale(1.02)";
-            setTimeout(() => {
-                transitionToScene(sceneWelcome, sceneDedication);
-            }, 300);
-        }
-        
-        startBtn.addEventListener('click', handleStart);
-        startText.addEventListener('click', handleStart);
-
-        toTuesdayTrigger.addEventListener('click', () => {
-            transitionToScene(sceneDedication, sceneTuesday);
-        });
-
-        // آلية الانتقال الجديدة لصفحة الأيام لتنتقل بمجرد النقر في أي مكان
-        toLetterTrigger.addEventListener('click', () => {
-            daysMainWrapper.classList.add('fade-out-smooth');
-            
-            setTimeout(() => {
-                sceneTuesday.classList.remove('active');
-                sceneLetter.classList.add('active');
-                initLetterObserver(); 
-            }, 500); 
-        });
-
-        function initLetterObserver() {
-            const blocks = document.querySelectorAll('.letter-block');
-            const options = {
-                root: letterScroller,
-                rootMargin: '-35% 0px -35% 0px',
-                threshold: 0.15
-            };
-
-            let isEndingTriggered = false;
-
-            function triggerEndingScene() {
-                if (isEndingTriggered) return;
-                isEndingTriggered = true;
-
-                // تحميل الوردة الأخيرة فقط عند الحاجة
-                const endingModel = document.getElementById('ending-model');
-                if (endingModel && !endingModel.src) {
-                    endingModel.src = endingModel.dataset.src;
+                nextScene.classList.add('active');
+                if (nextScene === sceneLetter) {
+                    updateActiveLetterBlock();
                 }
+            }, 50);
+        }
 
-                setTimeout(() => {
-                    sceneLetter.style.transition = 'opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-                    sceneLetter.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        sceneLetter.classList.remove('active');
-                        sceneEnding.classList.add('active');
-                    }, 550);
-                }, 800); 
-            }
+        document.getElementById('to-intro2-trigger').addEventListener('click', () => switchScene(sceneIntro1, sceneIntro2));
+        document.getElementById('to-intro3-trigger').addEventListener('click', () => switchScene(sceneIntro2, sceneIntro3));
+        document.getElementById('to-intro4-trigger').addEventListener('click', () => switchScene(sceneIntro3, sceneIntro4));
+        document.getElementById('to-intro5-trigger').addEventListener('click', () => switchScene(sceneIntro4, sceneIntro5));
+        document.getElementById('to-welcome-trigger').addEventListener('click', () => {
+            if (bgMusic) bgMusic.play().catch(e => {});
+            switchScene(sceneIntro5, sceneWelcome);
+        });
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        if (entry.target.id === 'last-block') {
-                            triggerEndingScene();
-                        }
-                    } else {
-                        entry.target.classList.remove('active');
-                    }
-                });
-            }, options);
+        startBtn.addEventListener('click', () => switchScene(sceneWelcome, sceneNew1));
 
-            blocks.forEach(block => observer.observe(block));
+        document.getElementById('to-new2-trigger').addEventListener('click', () => switchScene(sceneNew1, sceneNew2));
+        document.getElementById('to-new3-trigger').addEventListener('click', () => switchScene(sceneNew2, sceneNew3));
+        document.getElementById('to-new4-trigger').addEventListener('click', () => switchScene(sceneNew3, sceneNew4));
+        document.getElementById('to-new5-trigger').addEventListener('click', () => switchScene(sceneNew4, sceneNew5));
+        document.getElementById('to-dedication-trigger').addEventListener('click', () => switchScene(sceneNew5, sceneDedication));
+        document.getElementById('to-tuesday-trigger').addEventListener('click', () => switchScene(sceneDedication, sceneTuesday));
+        document.getElementById('to-letter-trigger').addEventListener('click', () => switchScene(sceneTuesday, sceneLetter));
 
-            letterScroller.addEventListener('scroll', () => {
-                const maxScroll = letterScroller.scrollHeight - letterScroller.clientHeight;
-                if (letterScroller.scrollTop >= maxScroll - 15) {
-                    triggerEndingScene();
+        function updateActiveLetterBlock() {
+            const blocks = document.querySelectorAll('.letter-block');
+            let lastBlockInView = false;
+            const viewCenter = window.innerHeight / 2;
+
+            blocks.forEach(block => {
+                const rect = block.getBoundingClientRect();
+                const blockCenter = rect.top + (rect.height / 2);
+                
+                if (Math.abs(blockCenter - viewCenter) < 80) {
+                    block.classList.add('active');
+                    if (block.id === 'last-block') lastBlockInView = true;
+                } else {
+                    block.classList.remove('active');
                 }
             });
-        }
-           const bgMusic = document.getElementById('bgMusic');
 
-           document.addEventListener('click', () => {
-           bgMusic.play();
-}, { once: true });
+            if (lastBlockInView && (letterScroller.scrollHeight - letterScroller.scrollTop <= letterScroller.clientHeight + 80)) {
+                setTimeout(() => {
+                    if (endingModel && !endingModel.src) {
+                        endingModel.src = endingModel.getAttribute('data-src');
+                    }
+                    switchScene(sceneLetter, sceneEnding);
+                }, 1200);
+            }
+        }
+
+        letterScroller.addEventListener('scroll', updateActiveLetterBlock);
     </script>
 </body>
 </html>
