@@ -144,7 +144,6 @@
             filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
             z-index: 6;
             outline: none;
-            margin-right: -70px;
         }
 
         .flower-3d-container:hover, .flower-3d-container:active {
@@ -427,6 +426,10 @@
             gap: 20px;
         }
 
+        #scene-welcome .flower-3d-container {
+            margin-right: -70px;
+        }
+
         #scene-ending .flower-3d-container {
             width: 320px;
             height: 320px;
@@ -448,7 +451,11 @@
         /* توافق الشاشات والهواتف المتنقلة */
         @media (max-width: 768px) {
             .flower-3d-container { width: 230px; height: 230px; }
-            #scene-ending .flower-3d-container { width: 240px; height: 240px; }
+            #scene-welcome .flower-3d-container {
+            margin-right: -70px;
+        }
+
+        #scene-ending .flower-3d-container { width: 240px; height: 240px; }
             .ending-text { font-size: 20px; }
             .welcome-text { font-size: 22px; }
             .dedication-line-1 { font-size: 42px; }
@@ -638,7 +645,9 @@
                                      وَرُوحُك هِيَ اللُّؤْلُؤُ الْمَكْنُونُ</div>
             <div class="flower-3d-container">
                 <model-viewer 
-                    src="next3d.ai-Generated-Model-3cv4pp.glb" 
+                    id="ending-model"
+                    src=""
+                    data-src="next3d.ai-Generated-Model-3cv4pp.glb" 
                     alt="وردة ثلاثية الأبعاد تفاعلية"
                     camera-controls
                     enable-pan
@@ -742,6 +751,12 @@
             function triggerEndingScene() {
                 if (isEndingTriggered) return;
                 isEndingTriggered = true;
+
+                // تحميل الوردة الأخيرة فقط عند الحاجة
+                const endingModel = document.getElementById('ending-model');
+                if (endingModel && !endingModel.src) {
+                    endingModel.src = endingModel.dataset.src;
+                }
 
                 setTimeout(() => {
                     sceneLetter.style.transition = 'opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
