@@ -391,7 +391,7 @@
             text-align: center;
             padding: 0 24px;
             scroll-snap-align: center;
-            transition: all 0.4s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             transform: scale(0.95);
             opacity: 0.15;
             filter: blur(1px);
@@ -717,9 +717,9 @@
         function initLetterObserver() {
             const blocks = document.querySelectorAll('.letter-block');
             const options = {
-                root: letterScroller,
-                rootMargin: '-35% 0px -35% 0px',
-                threshold: 0.15
+                    root: letterScroller,
+                    rootMargin: '0px 0px -5% 0px', 
+                    threshold: 0.0                 
             };
 
             let isEndingTriggered = false;
