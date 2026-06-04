@@ -420,16 +420,14 @@
             transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
         }
 
-        #scene-ending .flower-3d-container {
-             width: 320px;
-             height: 320px;
-             cursor: grab;
-             z-index: 40; 
-             position: relative;
-             display: flex;
-           justify-content: center;
-         align-items: center;
-       }
+       #scene-ending .flower-3d-container {
+            width: 320px;
+            height: 320px;
+            cursor: grab;
+            z-index: 40; 
+            position: relative;
+            top: -60px; /* هذا السطر يرفع الوردة للأعلى */
+         }
         
         #scene-ending .flower-3d-container:active {
             cursor: grabbing;
