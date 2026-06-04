@@ -395,6 +395,7 @@
             transform: scale(0.95);
             opacity: 0.15;
             filter: blur(1px);
+            will-change: opacity, transform;
         }
 
         .letter-block p {
@@ -717,10 +718,10 @@
         function initLetterObserver() {
             const blocks = document.querySelectorAll('.letter-block');
             const options = {
-                    root: letterScroller,
-                    rootMargin: '0px 0px -5% 0px', 
-                    threshold: 0.0                 
-            };
+                     root: letterScroller,
+                     rootMargin: '-25% 0px -25% 0px'
+                     threshold: 0.10                 
+          };
 
             let isEndingTriggered = false;
 
