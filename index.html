@@ -134,17 +134,23 @@
             gap: 30px;
         }
 
-        .moon-container {
-            width: 260px;
-            height: 260px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: none;
-            box-shadow: 0 0 40px rgba(223, 177, 91, 0.1), 0 0 80px rgba(0,0,0,0.6);
-            opacity: 0;
-            transform: scale(0.85);
-            transition: opacity 2s ease 0.4s, transform 2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
-        }
+       moon-container {
+          width: 260px;
+          height: 260px;
+          border-radius: 50%;
+          overflow: visible; /* تغيير من hidden لضمان عدم قص أي جزء من الصورة */
+          border: none;      /* إزالة الإطار */
+          box-shadow: none;  /* إزالة الظل والتوهج */
+          opacity: 0;
+          transform: scale(0.85);
+          transition: opacity 2s ease 0.4s, transform 2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+         }
+
+.moon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* لضمان ظهور القمر بالكامل داخل الحاوية */
+}
 
         .scene.active .moon-container {
             opacity: 1;
