@@ -426,11 +426,6 @@
             gap: 20px;
         }
 
-        #scene-welcome .flower-3d-container {
-         width: 280px;
-         height: 280px;
-         transform: translateX(-100px);
-        }
         #scene-ending .flower-3d-container {
             width: 320px;
             height: 320px;
@@ -452,10 +447,6 @@
         /* توافق الشاشات والهواتف المتنقلة */
         @media (max-width: 768px) {
             .flower-3d-container { width: 230px; height: 230px; }
-            #scene-welcome .flower-3d-container {
-            margin-right: -70px;
-        }
-
         #scene-ending .flower-3d-container { width: 240px; height: 240px; }
             .ending-text { font-size: 20px; }
             .welcome-text { font-size: 22px; }
@@ -509,7 +500,7 @@
 
         <!-- المشهد الأول: شاشة الترحيب بالوردة الـ 3D المستقرة -->
         <div id="scene-welcome" class="scene">
-            <div class="flower-3d-container" id="start-btn" style="position:relative; right:30px;">
+            <div class="flower-3d-container" id="start-btn">
                 <model-viewer 
                     src="next3d.ai-Generated-Model-3cv4pp.glb" 
                     alt="وردة ثلاثية الأبعاد ترحيبية"
