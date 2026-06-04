@@ -368,10 +368,11 @@
             width: 100%;
             height: 100%;
             overflow-y: scroll;
-            scroll-snap-type: y mandatory;
+            overflow-x: hidden;
+            touch-action: pan-y;
+            overscroll-behavior: contain;
             padding-top: 45vh;
             padding-bottom: 50vh;
-            scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -392,7 +393,6 @@
             padding: 0 24px;
             scroll-snap-align: center;
             transition: all 0.4s ease;
-            transform: scale(0.95);
             opacity: 0.15;
             filter: blur(1px);
             will-change: opacity, transform;
@@ -411,7 +411,6 @@
         .letter-block.active {
             opacity: 1;
             filter: blur(0px);
-            transform: scale(1.02);
         }
 
         /* ==================== المشهد الأخير: الخاتمة والتحكم التفاعلي بالوردة ==================== */
@@ -420,15 +419,26 @@
             transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
         }
 
+        #scene-ending {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
         #scene-ending .flower-3d-container {
             width: 320px;
             height: 320px;
             cursor: grab;
-            z-index: 40; /* التأكد من بقائها فوق أي طبقات لتلقي السحب واللمس */
+            z-index: 40;
             position: relative;
-            top: -60px;
+            top: 0;
+            display: flex;
             justify-content: center;
             align-items: center;
+            margin-right: 0;
+            margin-left: 0;
         }
         
         #scene-ending .flower-3d-container:active {
@@ -438,7 +448,8 @@
         /* توافق الشاشات والهواتف المتنقلة */
         @media (max-width: 768px) {
             .flower-3d-container { width: 230px; height: 230px; }
-            #scene-ending .flower-3d-container { width: 260px; height: 260px; }
+            #scene-ending .flower-3d-container { width: 240px; height: 240px; }
+            .ending-text { font-size: 20px; }
             .welcome-text { font-size: 22px; }
             .dedication-line-1 { font-size: 42px; }
             .dedication-line-2 { font-size: 24px; padding: 0 15px; }
@@ -450,19 +461,20 @@
             .day-column-title { font-size: 18px; margin-bottom: 8px; }
             .wednesday-symbol-container, .thursday-symbol-container { height: 110px; }
             
-            .letter-block p { font-size: 24px; line-height: 1.7; }
-            .letter-block { min-height: 22vh; }
+            .letter-block p { font-size: 22px; line-height: 1.7; max-width: 100%; }
+            .letter-block { min-height: 22vh; padding: 0 16px; }
             .countdown-number { font-size: 90px; }
         }
          
        .ending-text {
-    margin-top: 25px;
+    margin-top: 0;
     text-align: center;
     font-size: 28px;
     color: var(--gold);
     text-shadow: 0 0 15px rgba(223, 177, 91, 0.2);
     opacity: 0.9;
     z-index: 50;
+    padding: 0 20px;
     }
         @keyframes softPulse {
             0% { opacity: 0.7; }
@@ -622,9 +634,9 @@
 
         <!-- المشهد الأخير: الخاتمة التفاعلية المسرَّعة بالتحكم الكامل لليد والماوس للوردة -->
         <div id="scene-ending" class="scene">
-            <div class="flower-3d-container">
             <div class="ending-text">وَجْهُك كَأَنَّمَا خُلِقَ مِنْ ضِيَاءٍ، 
                                      وَرُوحُك هِيَ اللُّؤْلُؤُ الْمَكْنُونُ</div>
+            <div class="flower-3d-container">
                 <model-viewer 
                     src="next3d.ai-Generated-Model-3cv4pp.glb" 
                     alt="وردة ثلاثية الأبعاد تفاعلية"
