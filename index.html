@@ -421,13 +421,15 @@
         }
 
         #scene-ending .flower-3d-container {
-            width: 320px;
-            height: 320px;
-            cursor: grab;
-            z-index: 40; /* التأكد من بقائها فوق أي طبقات لتلقي السحب واللمس */
-            position: relative;
-            top: -60px;
-        }
+             width: 320px;
+             height: 320px;
+             cursor: grab;
+             z-index: 40; 
+             position: relative;
+             display: flex;
+           justify-content: center;
+         align-items: center;
+       }
         
         #scene-ending .flower-3d-container:active {
             cursor: grabbing;
