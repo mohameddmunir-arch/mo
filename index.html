@@ -19,7 +19,7 @@
     <style>
         @font-face {
         font-family: 'KufiCustom';
-         src: url('./Kufi.otf') format('truetype');
+         src: url('./Kufi.ttf') format('truetype');
          font-weight: normal;
          font-style: normal;
         }
@@ -465,7 +465,7 @@
         .letter-block .para {
             font-family: var(--font-letter-kufi);
             font-weight: 700;
-            font-size: clamp(22px, 4.5vw, 36px);
+            font-size: clamp(18px, 3.5vw, 28px);
             line-height: 2;
             max-width: 820px;
             color: var(--paper-text);
@@ -485,7 +485,7 @@
 
         /* الفقرات القصيرة (جملة واحدة أو كلمتين) - تكون أكبر */
         .letter-block.short .para {
-            font-size: clamp(22px, 4.5vw, 36px);
+            font-size: clamp(18px, 3.5vw, 28px);
             line-height: 1.8;
         }
 
@@ -548,8 +548,8 @@
             .wednesday-symbol-container, .thursday-symbol-container { height: 110px; }
 
             .letter-block { padding: 3vh 16px; }
-            .letter-block .para { font-size: clamp(37px, 6vw, 40px); line-height: 1.9; }
-            .letter-block.short .para { font-size: clamp(37px, 6vw, 40px); }
+            .letter-block .para { font-size: clamp(16px, 5vw, 22px); line-height: 1.9; }
+            .letter-block.short .para { font-size: clamp(16px, 5vw, 22px); }
         }
          
         @keyframes softPulse {
