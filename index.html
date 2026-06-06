@@ -17,6 +17,12 @@
     </audio>
 
     <style>
+        @font-face {
+        font-family: 'KufiCustom';
+         src: url('./Kufi.otf') format('truetype');
+         font-weight: normal;
+         font-style: normal;
+        }
         :root {
             --bg-crimson: #1a0508;
             --bg-crimson-dark: #0f0305;
@@ -29,7 +35,7 @@
             --parchment-burn: rgba(58, 42, 29, 0.3);
             
             --font-global: 'Rakkas', serif;
-            --font-letter-kufi: 'Reem Kufi', sans-serif; 
+            --font-letter-kufi: 'KufiCustom', sans-serif;
             --font-countdown: 'Playfair Display', serif;
         }
 
@@ -134,33 +140,27 @@
             gap: 30px;
         }
 
-       moon-container {
-          width: 260px;
-          height: 260px;
-          border-radius: 50%;
-          overflow: visible; /* تغيير من hidden لضمان عدم قص أي جزء من الصورة */
-          border: none;      /* إزالة الإطار */
-          box-shadow: none;  /* إزالة الظل والتوهج */
-          opacity: 0;
-          transform: scale(0.85);
-          transition: opacity 2s ease 0.4s, transform 2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
-         }
-
-.moon-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* لضمان ظهور القمر بالكامل داخل الحاوية */
-}
-
-        .scene.active .moon-container {
-            opacity: 1;
-            transform: scale(1);
+        .moon-container {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            overflow: visible;
+            border: none;
+            box-shadow: none;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 2s ease 0.4s, transform 2s cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
         }
 
         .moon-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+        }
+
+        .scene.active .moon-container {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .moon-caption {
@@ -185,7 +185,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
+            direction: ltr;
+            }
 
         .flower-3d-container {
             width: 280px;
@@ -343,7 +344,7 @@
         .tuesday-symbol {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 10px rgba(240, 160, 32, 0.2));
+            filter: drop-shadow(0 0 10px rgba(30, 16, 1, 0.2));
         }
 
         .middle-phrase-section {
@@ -431,7 +432,7 @@
             overflow-x: hidden;
             touch-action: pan-y;
             overscroll-behavior: contain;
-            padding-top: 45vh;
+            padding-top: 40vh;
             padding-bottom: 50vh;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
@@ -444,13 +445,14 @@
             height: 0 !important;
         }
 
+        /* ==================== letter-block الجديد: كل فقرة كاملة ==================== */
         .letter-block {
-            min-height: 20vh;
+            min-height: 15vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 24px;
+            padding: 4vh 24px;
             scroll-snap-align: center;
             transition: opacity 1.3s cubic-bezier(0.25, 1, 0.3, 1), filter 1.3s cubic-bezier(0.25, 1, 0.3, 1), transform 1.3s cubic-bezier(0.25, 1, 0.3, 1);
             opacity: 0;
@@ -459,15 +461,32 @@
             will-change: opacity, filter, transform;
         }
 
-        .letter-block p {
+        /* الـ paragraph داخل كل block */
+        .letter-block .para {
             font-family: var(--font-letter-kufi);
             font-weight: 700;
-            font-size: 30px;
-            line-height: 1.8;
-            max-width: 800px;
+            font-size: clamp(22px, 4.5vw, 36px);
+            line-height: 2;
+            max-width: 820px;
             color: var(--paper-text);
             letter-spacing: 0.5px;
-            text-shadow: 0 0 1px rgba(176, 141, 87, 0.15); 
+            text-shadow: 0 0 1px rgba(176, 141, 87, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        /* كل جملة داخل الفقرة */
+        .letter-block .para span {
+            display: block;
+            width: 100%;
+        }
+
+        /* الفقرات القصيرة (جملة واحدة أو كلمتين) - تكون أكبر */
+        .letter-block.short .para {
+            font-size: clamp(22px, 4.5vw, 36px);
+            line-height: 1.8;
         }
 
         .letter-block.active {
@@ -518,7 +537,7 @@
             .dedication-line-1 { font-size: 42px; }
             .dedication-line-2 { font-size: 24px; padding: 0 15px; }
             .intro-text { font-size: 24px; }
-            .moon-container { width: 200px; height: 200px; }
+            .moon-container { width: 400px; height: 400px; }
             .moon-caption { font-size: 20px; }
             
             .tuesday-title { font-size: 26px; }
@@ -527,9 +546,10 @@
             .middle-or { font-size: 18px; }
             .day-column-title { font-size: 18px; margin-bottom: 8px; }
             .wednesday-symbol-container, .thursday-symbol-container { height: 110px; }
-            
-            .letter-block p { font-size: 22px; line-height: 1.7; max-width: 100%; }
-            .letter-block { min-height: 20vh; padding: 0 16px; }
+
+            .letter-block { padding: 3vh 16px; }
+            .letter-block .para { font-size: clamp(37px, 6vw, 40px); line-height: 1.9; }
+            .letter-block.short .para { font-size: clamp(37px, 6vw, 40px); }
         }
          
         @keyframes softPulse {
@@ -644,7 +664,7 @@
                     <div class="tuesday-title">أَكْتُبُهَا إِلَيْكِ فِي يَوْمِ الثُّلَاثَاءِ</div>
                     <div class="tuesday-symbol-container">
                         <svg viewBox="0 0 280 120" class="tuesday-symbol">
-                            <path d="M 20,100 C 20,30 60,0 100,30 C 130,52 140,80 140,55 C 140,30 150,0 190,20 C 220,36 250,65 260,95" stroke="#f0a020" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 20,100 C 20,30 60,0 100,30 C 130,52 140,80 140,55 C 140,30 150,0 190,20 C 220,36 250,65 260,95" stroke="#CC5500" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                 </div>
@@ -683,71 +703,238 @@
             <div class="click-hint">اِضْغَطِي فِي أَيِّ مَكَانٍ لِلْمُتَابَعَةِ</div>
         </div>
 
-        <!-- المشهد: الرسالة -->
+        <!-- المشهد: الرسالة — كل فقرة = block واحد، الجمل تحت بعضها -->
         <div id="scene-letter" class="scene">
             <div class="letter-scroll-container" id="letter-scroller">
-                <div class="letter-block"><p>أَكْتُبُ لَكِ</p></div>
-                <div class="letter-block"><p>لَعَلِّي أَرْفُقُ بِقَلْبٍ حَمَلَ قَسْوَةَ الأَيَّامِ وَحْدَهُ</p></div>
-                <div class="letter-block"><p>وَتَحَمَّلَ مِنَ الصِّعَابِ مَا تَخِرُّ عَنْهُ الجِبَالُ.</p></div>
-                <div class="letter-block"><p>قَدْ عَلِمْتُ أَنَّكِ فِي أَيَّامِ تِيهٍ</p></div>
-                <div class="letter-block"><p>كَفُلْكٍ هَائِمٍ وَسَطَ عَاصِفَةٍ</p></div>
-                <div class="letter-block"><p>شَجَّتْ سُكُونَ البَحْرِ،</p></div>
-                <div class="letter-block"><p>كَأَنَّ جُهُودَكِ بِلَا مَعْنَى</p></div>
-                <div class="letter-block"><p>كَأَنَّكِ حِمْلٌ زَائِدٌ يُلْقَى لِلنَّجَاةِ.</p></div>
-                <div class="letter-block"><p>أَوْ كَنَجْمَةٍ نَزَلَتْ مِنْ سَمَائِهَا</p></div>
-                <div class="letter-block"><p>لِتُرْشِدَ التَّائِهِِينَ،</p></div>
-                <div class="letter-block"><p>فَضَلَّتْ هِيَ طَرِيقَهَا..</p></div>
-                <div class="letter-block"><p>لَا لِنَقْصٍ فِي بَرِيقِهَا،</p></div>
-                <div class="letter-block"><p>بَلْ خَانَتْهَا عَتَمَةُ السَّمَاءِ.</p></div>
-                <div class="letter-block"><p>لَوْ أَبْصَرْتِ نَفْسَكِ بِعَيْنَيْنِ غَيْرِ عُيُونٍ قَسَتْ عَلَيْكِ</p></div>
-                <div class="letter-block"><p>لَأَبْصَرْتِ جَمَالاً غَابَ عَنْ نَاظِرَيْكِ</p></div>
-                <div class="letter-block"><p>لَرَأَيْتِ قَلْباً كَتُوماً مُثْقَلاً بِالأَحْمَالِ</p></div>
-                <div class="letter-block"><p>وَرُوحاً أَنْهَكَتْهَا المَلَامَةُ.</p></div>
-                <div class="letter-block"><p>يَا صَغِيرَتِي، انْظُرِي لِنَفْسِكِ بِعَيْنِ رَحْمَةٍ آثَرْتِ بِهَا غَيْرَكِ.</p></div>
-                <div class="letter-block"><p>أُوصِيكِ أَنْ تَكُونِي بِذَاتِكِ زَهْوًا</p></div>
-                <div class="letter-block"><p>فَكَمْ مِنْ كَرْبٍ كَانَ يُفْتَرَضُ بِهِ أَنْ يُخْمِدَ نُورَكِ</p></div>
-                <div class="letter-block"><p>فَمَا زَادَكِ إِلَّا اتِّقَاداً وَبَهَاءً.</p></div>
-                <div class="letter-block"><p>إِنَّنِي فِي حِيرَةٍ مِنْ أَمْرِي</p></div>
-                <div class="letter-block"><p>مَا رَأَيْتُكِ يَوْماً إِلَّا حَنُونَةً كَأُمٍّ اشْتَاقَتْ لِوَلَدِهَا، فَأَخْبِرِينِي</p></div>
-                <div class="letter-block"><p>كَيْفَ بِأَرَقِّ الخَلْقِ فُؤَادً</p></div>
-                <div class="letter-block"><p>أَنْ يَحْرِمَ نَفْسَهُ عِنَاقاً طَالَ غِيَابُهُ؟</p></div>
-                <div class="letter-block"><p>وَاعَجَبِي كَيْفَ تُدَاوِينَ الجِرَاحَ</p></div>
-                <div class="letter-block"><p>وَجُرْحُكِ بِالرِّضَا مَكْشُوفُ</p></div>
-                <div class="letter-block"><p>يَا صَغِيرَتِي،</p></div>
-                <div class="letter-block"><p>رَقِيقَةٌ أَنْتِ كَجَنَاحَيْ فَرَاشَةٍ</p></div>
-                <div class="letter-block"><p>لَمْ يُحْدِثَا صَخَباً قَطُّ</p></div>
-                <div class="letter-block"><p>وَإِنَّمَا هُدُوءٌ يُدْرَكُ لِوَقَارٍ لَا لِوَهْنٍ.</p></div>
-                <div class="letter-block"><p>أُوصِيكِ أَنْ تُدْرِكِي</p></div>
-                <div class="letter-block"><p>أَنَّ نَقَاءَ رُوحَكِ وَطِيبِ قَلْبِك</p></div>
-                <div class="letter-block"><p>وَرَحْمَةً لَمْ يُدَنِّسْهَا جَفَاءُ الزَّمَانِ</p></div>
-                <div class="letter-block"><p>لَا يُنْظَرُ إِلَيْهِا بِعَيْنِ مَنْقَصَةٍ</p></div>
-                <div class="letter-block"><p>وَإِنَّمَا يُصَانُ</p></div>
-                <div class="letter-block"><p>كَمَا الشُّمُوعُ فِي لَيَالٍ اشْتَدَّتْ ظُلْمَتُهَا؛</p></div>
-                <div class="letter-block"><p>فَجَمَالٌ كَهَذَا عَزِيزٌ لَا يُنَالُ.</p></div>
-                <div class="letter-block"><p>اِعْلَمِي أَنِّي مَا رَأَيْتُ فِي دُمُوعِكِ وَهْناً</p></div>
-                <div class="letter-block"><p>كَلّا، إِنَّمَا قَطَرَاتُ نَدَىً</p></div>
-                <div class="letter-block"><p>تَسَابَقَتْ شَوْقاً لِتَصِلَ إِلَى خَدَّيْكِ،</p></div>
-                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَخْجَلِي مِنْ دَمْعَةٍ سَالَتْ مِنْ عَيْنَيْكِ</p></div>
-                <div class="letter-block"><p>إِثْرَ مَا عَانَيْتِ مِنَ الصِّعَابِ</p></div>
-                <div class="letter-block"><p>فَمَا كَانَ الحُزْنُ ضَعْفاً</p></div>
-                <div class="letter-block"><p>وَلَا الدَّمْعُ انْكِسَاراً،</p></div>
-                <div class="letter-block"><p>بَلْ هِيَ نِعْمَةُ اللِّينِ رُزِقْتِهَا وَهَيِّنٌ سَكَنَ قَلْبَكِ</p></div>
-                <div class="letter-block"><p>فِي زَمَانٍ مَالَ إِلَى القَسْوَةِ.</p></div>
-                <div class="letter-block"><p>فَمَا كَانَتْ قُوَاكِ قَدْرَ مَا تَكْتُمِينَ،</p></div>
-                <div class="letter-block"><p>بَلْ حِينَ أَثْقَلَتْكِ الحَيَاةُ</p></div>
-                <div class="letter-block"><p>صُنْتِ طُهْرَ قَلْبِكِ</p></div>
-                <div class="letter-block"><p>وَنَهَضْتِ مَاضِيةً فِي دَرْبِكِ.</p></div>
-                <div class="letter-block"><p>يَا صَغِيرَتِي، أَمَا آنَ لِهَذَا الفُؤَادِ القَلِقِ أَنْ يَسْتَرِيحَ؟</p></div>
-                <div class="letter-block"><p>أَمَا آنَ لِرُوحٍ مُرْتَجِفَةٍ أَنْ تَطْمَئِنَّ؟</p></div>
-                <div class="letter-block"><p>أَخْبِرِينِي إِذَا مَا جَفَا النَّاسُ قَسْوَةً</p></div>
-                <div class="letter-block"><p>وَجَارَ الدَّهْرُ غَبْنَةً</p></div>
-                <div class="letter-block"><p>إِلَى مَنْ يَسْتَنِدُ هَذَا القَلْبُ الصَّغِيرُ؟</p></div>
-                <div class="letter-block"><p>مَنْ يُهَوِّنُ عَلَيْهِ وَطْأَةَ الأَيَّامِ؟</p></div>
-                <div class="letter-block"><p>أَخْبِرِينِي أَيُّ مَلَاذٍ يَأْوِيهِ؟</p></div>
-                <div class="letter-block"><p>إِنْ ظَفِرَ بِأَضْلُعِكِ سَكَناً</p></div>
-                <div class="letter-block"><p>هَنِيئاً لَهُ خَيْرُ السَّكَنِ كَانَ</p></div>
-                <div class="letter-block"><p>أُوصِيكِ أَلَّا تَحْرِمِيهِ هَكَذَا نِعْمَةً</p></div>
-                <div class="letter-block" id="last-block"><p>فَرَقِيقٌ كَهَذَا أَحَقُّ أَنْ يُضَمَّ لَا أَنْ يُضَام.</p></div>
+
+                <!-- الفقرة 1 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>قَدْ عَلِمْتُ أَنَّكِ فِي أَيَّامِ تِيهٍ ... كَفُلْكٍ فِي عَاصِفَةٍ</span>
+                        <span>اشْتَدَّتْ غُرْبَتُهُ بَيْنَ أَحْضَانِ مَوْجٍ قَدِ اعْتَادَ لُقْيَاهُ</span>
+                        <span>فَظَنَّ أَنَّهُ حِمْلٌ زَائِدٌ ... لَا يَرْجُو النَّجَاةَ</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 2 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>غَيْرَ أَنِّي أَرَاكِ أَكْثَرَ مِنْ ذَلِكَ...</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 3 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>كَأَنَّكِ الكَوْكَبُ الدُّرِّيُّ ... هَوَى مِنْ عُلْيَاهُ</span>
+                        <span>لِيُرْشِدَ التَّائِهِينَ ... فَضَلَّ هُوَ عَنْ مَسْعَاهُ</span>
+                        
+                    </div>
+                </div>
+
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>لَا لِنَقْصٍ فِي ضِيَاهُ ... بَلْ خَانَتْهُ أَسْتَارُ اللَّيْلِ</span>
+                        <span>وَطُغْيَانُ العَتَمَةِ فِي مُنْتَهَاهُ</span>
+                        </div>
+                </div>
+               
+                <!-- الفقرة 4 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>يَا رُوحاً فِي مَهَبِّ التِّيهِ...</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 5 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>لَوْ أَبْصَرْتِ نَفْسَكِ بِعَيْنَيْنِ غَيْرِ الَّتِي قَسَتْ عَلَيْكِ</span>
+                        <span>لَأَبْصَرْتِ جَمَالاً غَابَ عَنْ نَاظِرَيْكِ</span>
+                        
+                    </div>
+                </div>
+           
+                <div class="letter-block">
+                    <div class="para">
+                        <span>لَرَأَيْتِ قَلْباً كَتُوماً مُثْقَلاً بِالأَحْمَالِ</span>
+                        <span>وَرُوحاً أَنْهَكَتْهَا المَلَامَةُ</span>
+                     </div>
+                </div>
+
+                <!-- الفقرة 6 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>انْظُرِي لِنَفْسِكِ بِعَيْنِ رَحْمَةٍ آثَرْتِ بِهَا غَيْرَكِ</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 7 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>عَجِبْتُ لِقَلْبٍ حَنُونٍ أَرْهَقَهُ العَطَاءُ</span>
+                        <span>كَيْفَ يَحْرِمُ نَفْسَهُ طِيبَ العِنَاقِ؟</span>
+                       
+                    </div>
+                </div>
+
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>يَدَاوِي بِرُوحِهِ الجِرَاحَ</span>
+                        <span>وَجُرْحُهُ هُوَ "مُتَكَبِّرٌ" يَأْبَى أَنْ يَطْلُبَ الدَّوَاءَ!</span>
+                        </div>
+                </div>
+
+                <!-- الفقرة 8 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>كُونِي بِذَاتِكِ زَهْواً...</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 9 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>جَاءَكِ الكَرْبُ مِنْ كُلِّ صَوْبٍ أَرَادَ إِخْمَادَ ضِيَاكِ</span>
+                        <span>لَمْ يَدْرِ أَنَّهُ بَارِزٌ ذَهَباً، يَزْدَادُ بِالنَّارِ صَفَاءً</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 10 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>عَادَ اللَّيْلُ بِعَتَمَتِهِ خَائِباً ... مَا زَادَكِ إِلَّا اتِّقَاداً!</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 11 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>مَا سِرُّكِ يَا فَتَاةُ؟ كَيْفَ لَا يَطَالُ جَمَالَكِ الوَهَنُ؟</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 12 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>يَا مَنْ تَمِيسُ رِقَّةً كَرَفِيفِ الفَرَاشَةِ</span>
+                        <span>وَتَعْلُو وَقَاراً كَسَكِينَةِ اللَّيْلِ فِي فَجْرِهِ</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 13 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>مَا الخَجَلُ مِنْ قَطَرَاتِ نَدَىً تَسَابَقَتْ شَوْقاً إِلَى خَدَّيْكِ؟</span>
+                        <span>أَمْطَرَتْ لِتُهَوِّنَ عَلَيْكِ إِثْرَ مَا عَانَيْتِ مِنَ الصِّعَابِ</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 14 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>مَا كَانَ الحُزْنُ ضَعْفاً وَلَا الدَّمْعُ انْكِسَاراً</span>
+                        <span>بَلْ نِعْمَةُ اللِّينِ رُزِقْتِهَا</span>
+                        <span>وَسَكِينَةُ قَلْبٍ أَبَى أَنْ تَكُونَ إِلَى القَسْوَةِ المَآلِ</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 15 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>أَلَا فَاعْلَمِي...</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 16+17 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>أَنَّ نَقَاءَ رُوحِكِ وَطِيبَ قَلْبِكِ وَرَحْمَةً لَمْ يُدَنِّسْهَا جَفَاءُ الزَّمَانِ</span>
+                        <span>لَا يُنْظَرُ إِلَيْهِم بِعَيْنِ مَنْقَصَةٍ</span>
+                        
+                    </div>
+                </div>
+                
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>وَإِنَّمَا يُصَانُ كَمَا الشُّمُوعُ فِي لَيَالٍ اشْتَدَّتْ ظُلْمَتُهَا</span>
+                        <span>فَجَمَالٌ كَهَذَا عَزِيزُ المَنَالِ</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 18 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>مَا كَانَتْ قُوَاكِ قَدْرَ مَا تَكْتُمِينَ</span>
+                        
+                    </div>
+                </div>
+            
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>بَلْ حِينَ أَثْقَلَتْكِ الحَيَاةُ</span>
+                        <span>صُنْتِ طُهْرَ قَلْبِكِ وَنَهَضْتِ مَاضِيَةً فِي دَرْبِكِ</span>
+                        </div>
+                </div>
+                <!-- الفقرة 19 -->
+                <div class="letter-block short">
+                    <div class="para">
+                        <span>عَزِيزَةُ النَّفْسِ... رَقِيقَةُ الوِجْدَانِ</span>
+                    </div>
+                </div>
+
+                <div class="letter-block">
+                    <div class="para">
+                        <span>يَا صَغِيرَتِي</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 20+21 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>أَمَا آنَ لِهَذَا الفُؤَادِ القَلِقِ أَنْ يَسْتَرِيحَ؟</span>
+                        <span>أَمَا آنَ لِرُوحٍ مُرْتَجِفَةٍ أَنْ تَطْمَئِنَّ؟</span>
+                    </div>
+                </div>
+
+                <div class="letter-block">
+                    <div class="para">
+                        <span>أَخْبِرِينِي</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 22+23+24 -->
+                <div class="letter-block">
+                    <div class="para">
+                        <span>إِذَا مَا جَفَا النَّاسُ قَسْوَةً وَجَارَ الدَّهْرُ غَبْنَةً</span>
+                        <span>إِلَى مَنْ يَسْتَنِدُ هَذَا القَلْبُ الصَّغِيرُ؟</span>
+                        
+                    </div>
+                </div>
+
+                <div class="letter-block">
+                    <div class="para">
+                        <span>مَنْ يُهَوِّنُ عَلَيْهِ وَطْأَةَ الأَيَّامِ؟</span>
+                        <span>أَخْبِرِينِي، أَيُّ مَلَاذٍ يَأْوِيهِ؟</span>
+                    </div>
+                </div>
+
+                <!-- الفقرة 25+26 -->
+
+                <div class="letter-block">
+                    <div class="para">
+                        <span>إِنْ ظَفِرَ بِأَضْلُعِكِ سَكَناً هَنِيئاً لَهُ</span>
+                        <span>خَيْرُ السَّكَنِ كَانَ</span>
+                        
+                    </div>
+                </div>
+                
+                <div class="letter-block" id="last-block">
+                  <div class="para">
+                        <span>أُوصِيكِ أَلَّا تَحْرِمِيهِ هَكَذَا نِعْمَةً</span>
+                        <span>فَرَقِيقٌ كَهَذَا أَحَقُّ أَنْ يُضَمَّ لَا أَنْ يُضَامَ</span>
+                      </div>
+                </div>
             </div>
         </div>
 
@@ -826,13 +1013,15 @@
         function updateActiveLetterBlock() {
             const blocks = document.querySelectorAll('.letter-block');
             let lastBlockInView = false;
-            const viewCenter = window.innerHeight / 2;
+            const scrollerRect = letterScroller.getBoundingClientRect();
+            const viewCenter = scrollerRect.top + scrollerRect.height / 2;
 
             blocks.forEach(block => {
                 const rect = block.getBoundingClientRect();
-                const blockCenter = rect.top + (rect.height / 2);
-                
-                if (Math.abs(blockCenter - viewCenter) < 80) {
+                const blockCenter = rect.top + rect.height / 2;
+                const threshold = rect.height / 2 + 40;
+
+                if (Math.abs(blockCenter - viewCenter) < threshold) {
                     block.classList.add('active');
                     if (block.id === 'last-block') lastBlockInView = true;
                 } else {
@@ -840,13 +1029,13 @@
                 }
             });
 
-            if (lastBlockInView && (letterScroller.scrollHeight - letterScroller.scrollTop <= letterScroller.clientHeight + 80)) {
+            if (lastBlockInView && (letterScroller.scrollHeight - letterScroller.scrollTop <= letterScroller.clientHeight + 120)) {
                 setTimeout(() => {
                     if (endingModel && !endingModel.src) {
                         endingModel.src = endingModel.getAttribute('data-src');
                     }
                     switchScene(sceneLetter, sceneEnding);
-                }, 1200);
+                }, 4000);
             }
         }
 
